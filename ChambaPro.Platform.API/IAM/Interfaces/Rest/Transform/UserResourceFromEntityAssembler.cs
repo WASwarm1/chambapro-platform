@@ -3,7 +3,7 @@ using ChambaPro.Platform.API.IAM.Interfaces.Rest.Resources;
 
 namespace ChambaPro.Platform.API.IAM.Interfaces.Rest.Transform;
 
-public static class UserResourceTransformer
+public static class UserResourceFromEntityAssembler
 {
     public static UserResource ToResourceFromEntity(User entity)
     {
