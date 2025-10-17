@@ -1,6 +1,12 @@
 using Chambapro_backend.Shared.Domain.Repositories;
 using Chambapro_backend.Shared.Infrastructure.Interfaces.ASP.Configuration;
 using Chambapro_backend.Shared.Infrastructure.Persistence.EFC.Configuration;
+using ChambaPro.Platform.API.IAM.Application.Internal.CommandServices;
+using ChambaPro.Platform.API.IAM.Application.Internal.OutboundServices;
+using ChambaPro.Platform.API.IAM.Application.Internal.QueryServices;
+using ChambaPro.Platform.API.IAM.Domain.Repositories;
+using ChambaPro.Platform.API.IAM.Domain.Services;
+using ChambaPro.Platform.API.IAM.Infrastructure.Persistence.EFC.Repositories;
 using ChambaPro.Platform.API.Shared.Infrastructure.Mediator.Cortex.Configuration;
 using ChambaPro.Platform.API.Shared.Infrastructure.Persistence.EFC.Repositories;
 using Cortex.Mediator.Commands;
@@ -88,6 +94,14 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 //TODO: Per BC config
 
+builder.Services.Configure<TokenSettings>(
+    builder.Configuration.GetSection("TokenSettings"));
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserCommandService, UserCommandService>();
+builder.Services.AddScoped<IUserQueryService, UserQueryService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IHashingService, HashingService>();
 
 
 builder.Services.AddScoped(typeof(ICommandPipelineBehavior<>), typeof(LoggingCommandBehavior<>));
