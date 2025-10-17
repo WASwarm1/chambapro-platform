@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ChambaPro.Platform.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3291446cd67f564177cd1d2e40d8c87d29445e0e")]
 [assembly: System.Reflection.AssemblyProductAttribute("ChambaPro.Platform.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ChambaPro.Platform.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

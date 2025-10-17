@@ -1,3 +1,3 @@
-namespace ChambaPro.Platform.API.IAM.Domain.Models.Commands;
+namespace ChambaPro.Platform.API.IAM.Domain.Model.Commands;
 
 public record SignInCommand(string Email, string Password, string UserType);

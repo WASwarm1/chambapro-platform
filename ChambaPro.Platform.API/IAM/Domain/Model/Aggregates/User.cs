@@ -1,7 +1,7 @@
 ﻿using System.Text.Json.Serialization;
-using ChambaPro.Platform.API.IAM.Domain.Models.ValueObjects;
+using ChambaPro.Platform.API.IAM.Domain.Model.ValueObjects;
 
-namespace Chambapro_backend.IAM.Domain.Models;
+namespace ChambaPro.Platform.API.IAM.Domain.Model.Aggregates;
 
 public class User
 {

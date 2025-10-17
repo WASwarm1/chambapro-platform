@@ -128,3 +128,4 @@ D:\Documents\Chambapro-backend\ChambaPro.Platform.API\obj\Debug\net9.0\refint\Ch
 D:\Documents\Chambapro-backend\ChambaPro.Platform.API\obj\Debug\net9.0\ChambaPro.Platform.API.pdb
 D:\Documents\Chambapro-backend\ChambaPro.Platform.API\obj\Debug\net9.0\ChambaPro.Platform.API.genruntimeconfig.cache
 D:\Documents\Chambapro-backend\ChambaPro.Platform.API\obj\Debug\net9.0\ref\ChambaPro.Platform.API.dll
+D:\Documents\Chambapro-backend\ChambaPro.Platform.API\obj\Debug\net9.0\ChambaPro.Platform.API.sourcelink.json

@@ -1,4 +1,4 @@
-namespace ChambaPro.Platform.API.IAM.Domain.Models.Commands;
+namespace ChambaPro.Platform.API.IAM.Domain.Model.Commands;
 
 public record UpdateProfileCommand(
     int UserId,
