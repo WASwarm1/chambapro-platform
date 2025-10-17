@@ -1,7 +1,7 @@
 using ChambaPro.Platform.API.IAM.Domain.Model.Commands;
 using ChambaPro.Platform.API.IAM.Interfaces.Rest.Resources;
 
-namespace ChambaPro.Platform.API.IAM.Interfaces.Rest.Transforms;
+namespace ChambaPro.Platform.API.IAM.Interfaces.Rest.Transform;
 
 public static class SignUpCommandFromResourceAssembler
 {
