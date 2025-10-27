@@ -32,6 +32,10 @@
         <Folder Include="Profiles\Domain\Services\" />
         <Folder Include="Profiles\Infrastructure\" />
         <Folder Include="Profiles\Interfaces\" />
+        <Folder Include="Service\Domain\Services\" />
+        <Folder Include="Service\Infrastructure\Persistence\EFC\Repositories\" />
+        <Folder Include="Service\Interfaces\REST\Resources\" />
+        <Folder Include="Service\Interfaces\REST\Transform\" />
     </ItemGroup>
 
 </Project>
