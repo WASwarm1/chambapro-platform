@@ -32,7 +32,6 @@
         <Folder Include="Profiles\Domain\Services\" />
         <Folder Include="Profiles\Infrastructure\" />
         <Folder Include="Profiles\Interfaces\" />
-        <Folder Include="Reservation\Interfaces\REST\Transform\" />
         <Folder Include="Service\" />
     </ItemGroup>
 
