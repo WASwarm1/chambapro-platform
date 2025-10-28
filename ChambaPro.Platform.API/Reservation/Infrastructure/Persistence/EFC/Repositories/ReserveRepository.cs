@@ -1,6 +1,6 @@
-﻿using Chambapro_backend.Shared.Infrastructure.Persistence.EFC.Configuration;
-using ChambaPro.Platform.API.Reservation.Domain.Model.Aggregates;
+﻿using ChambaPro.Platform.API.Reservation.Domain.Model.Aggregates;
 using ChambaPro.Platform.API.Reservation.Domain.Repositories;
+using ChambaPro.Platform.API.Shared.Infrastructure.Persistence.EFC.Configuration;
 using ChambaPro.Platform.API.Shared.Infrastructure.Persistence.EFC.Repositories;
 using Microsoft.EntityFrameworkCore;
 
