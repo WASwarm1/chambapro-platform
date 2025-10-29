@@ -1,4 +1,4 @@
-﻿using Chambapro_backend.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
+﻿using ChambaPro.Platform.API.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using ChambaPro.Platform.API.Reservation.Domain.Model.Aggregates;
 using EntityFrameworkCore.CreatedUpdatedDate.Extensions;
 using Microsoft.EntityFrameworkCore;

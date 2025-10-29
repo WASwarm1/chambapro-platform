@@ -1,5 +1,5 @@
-using Chambapro_backend.Shared.Domain.Repositories;
-using Chambapro_backend.Shared.Infrastructure.Interfaces.ASP.Configuration;
+using ChambaPro.Platform.API.Shared.Domain.Repositories;
+using ChambaPro.Platform.API.Shared.Infrastructure.Interfaces.ASP.Configuration;
 using ChambaPro.Platform.API.Reservation.Application.Internal.CommandServices;
 using ChambaPro.Platform.API.Reservation.Application.Internal.QueryServices;
 using ChambaPro.Platform.API.Reservation.Domain.Repositories;

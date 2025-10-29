@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace Chambapro_backend.Shared.Infrastructure.Interfaces.ASP.Configuration.Extensions;
+namespace ChambaPro.Platform.API.Shared.Infrastructure.Interfaces.ASP.Configuration.Extensions;
 
 public static partial class StringExtensions
 {

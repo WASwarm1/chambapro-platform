@@ -1,5 +1,5 @@
-﻿using Chambapro_backend.Shared.Domain.Repositories;
-using ChambaPro.Platform.API.Reservation.Domain.Model.Aggregates;
+﻿using ChambaPro.Platform.API.Reservation.Domain.Model.Aggregates;
+using ChambaPro.Platform.API.Shared.Domain.Repositories;
 
 namespace ChambaPro.Platform.API.Reservation.Domain.Repositories;
 

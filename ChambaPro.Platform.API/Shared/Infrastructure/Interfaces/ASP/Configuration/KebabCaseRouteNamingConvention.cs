@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.ApplicationModels;
-using Chambapro_backend.Shared.Infrastructure.Interfaces.ASP.Configuration.Extensions;
+using ChambaPro.Platform.API.Shared.Infrastructure.Interfaces.ASP.Configuration.Extensions;
 
-namespace Chambapro_backend.Shared.Infrastructure.Interfaces.ASP.Configuration;
+namespace ChambaPro.Platform.API.Shared.Infrastructure.Interfaces.ASP.Configuration;
 
 public class KebabCaseRouteNamingConvention : IControllerModelConvention
 {
