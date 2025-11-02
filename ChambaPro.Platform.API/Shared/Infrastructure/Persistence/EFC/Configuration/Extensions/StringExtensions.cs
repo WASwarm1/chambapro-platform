@@ -1,6 +1,6 @@
 ﻿using Humanizer;
 
-namespace Chambapro_backend.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
+namespace Chambapro.Platform.API.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
 
 
 /// <summary>
