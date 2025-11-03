@@ -1,4 +1,5 @@
 ﻿using ChambaPro.Platform.API.Reservation.Domain.Model.Aggregates;
+using ChambaPro.Platform.API.Review.Domain.Models.Aggregates;
 using ChambaPro.Platform.API.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using Chambapro.Platform.API.User.Domain.Model.Aggregates;
 using EntityFrameworkCore.CreatedUpdatedDate.Extensions;
@@ -13,6 +14,7 @@ public class AppDbContext : DbContext
 
     public DbSet<Reserve> Reserves { get; set; } = null!;
     public DbSet<UserProfile> UserProfiles { get; set; } = null!;
+    public DbSet<Reviews> Reviews { get; set; } = null!;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -44,6 +46,14 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<UserProfile>().Property(up => up.ProfilePictureUrl).HasMaxLength(500);
         modelBuilder.Entity<UserProfile>().Property(up => up.CreatedAt).IsRequired();
         modelBuilder.Entity<UserProfile>().Property(up => up.UpdatedAt);
+        
+        modelBuilder.Entity<Reviews>().HasKey(r => r.Id);
+        modelBuilder.Entity<Reviews>().Property(r => r.Id).IsRequired().ValueGeneratedOnAdd();
+        modelBuilder.Entity<Reviews>().Property(r => r.TechnicianId).IsRequired();
+        modelBuilder.Entity<Reviews>().Property(r => r.ClientId).IsRequired();
+        modelBuilder.Entity<Reviews>().Property(r => r.Rating).IsRequired();
+        modelBuilder.Entity<Reviews>().Property(r => r.Comment).IsRequired().HasMaxLength(1000);
+        modelBuilder.Entity<Reviews>().Property(r => r.CreationDate).IsRequired();
 
         modelBuilder.UseSnakeCaseNamingConvention();
     }

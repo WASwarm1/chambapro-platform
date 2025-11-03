@@ -5,6 +5,8 @@ using ChambaPro.Platform.API.Reservation.Application.Internal.QueryServices;
 using ChambaPro.Platform.API.Reservation.Domain.Repositories;
 using ChambaPro.Platform.API.Reservation.Domain.Services;
 using ChambaPro.Platform.API.Reservation.Infrastructure.Persistence.EFC.Repositories;
+using ChambaPro.Platform.API.Review.Domain.Models.Repositories;
+using ChambaPro.Platform.API.Review.Infrastructure.Persistence.EFC;
 using ChambaPro.Platform.API.Shared.Domain.Repositories;
 using ChambaPro.Platform.API.Shared.Infrastructure.Interfaces.ASP.Configuration;
 using ChambaPro.Platform.API.Shared.Infrastructure.Mediator.Cortex.Configuration;
@@ -106,6 +108,9 @@ builder.Services.AddScoped<IReserveQueryService, ReserveQueryService>();
 builder.Services.AddScoped<IReserveRepository, ReserveRepository>();
 
 builder.Services.AddScoped<IUserProfileRepository, UserProfileRepository>();
+
+builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
+
 
 
 
