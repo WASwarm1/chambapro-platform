@@ -1,10 +1,9 @@
-﻿using ChambaPro.Platform.API.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
-using ChambaPro.Platform.API.Reservation.Domain.Model.Aggregates;
+﻿using ChambaPro.Platform.API.Reservation.Domain.Model.Aggregates;
+using ChambaPro.Platform.API.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using EntityFrameworkCore.CreatedUpdatedDate.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace ChambaPro.Platform.API.Shared.Infrastructure.Persistence.EFC.Configuration;
-
 public class AppDbContext(DbContextOptions options) : DbContext(options)
 {
     
