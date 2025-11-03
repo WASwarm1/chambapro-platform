@@ -1,4 +1,4 @@
-﻿namespace Chambapro_backend.Shared.Domain.Repositories;
+﻿namespace ChambaPro.Platform.API.Shared.Domain.Repositories;
 
 /// <summary>
 ///     Unit of work interface
