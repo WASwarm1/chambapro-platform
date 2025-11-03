@@ -1,8 +1,8 @@
-﻿using Chambapro_backend.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
+﻿using ChambaPro.Platform.API.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using EntityFrameworkCore.CreatedUpdatedDate.Extensions;
 using Microsoft.EntityFrameworkCore;
 
-namespace Chambapro_backend.Shared.Infrastructure.Persistence.EFC.Configuration;
+namespace ChambaPro.Platform.API.Shared.Infrastructure.Persistence.EFC.Configuration;
 
 public class AppDbContext(DbContextOptions options) : DbContext(options)
 {

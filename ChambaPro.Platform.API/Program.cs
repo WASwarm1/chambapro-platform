@@ -1,7 +1,7 @@
 using Chambapro_backend.Shared.Domain.Repositories;
 using Chambapro_backend.Shared.Infrastructure.Interfaces.ASP.Configuration;
-using Chambapro_backend.Shared.Infrastructure.Persistence.EFC.Configuration;
 using ChambaPro.Platform.API.Shared.Infrastructure.Mediator.Cortex.Configuration;
+using ChambaPro.Platform.API.Shared.Infrastructure.Persistence.EFC.Configuration;
 using ChambaPro.Platform.API.Shared.Infrastructure.Persistence.EFC.Repositories;
 using Cortex.Mediator.Commands;
 using Cortex.Mediator.DependencyInjection;
