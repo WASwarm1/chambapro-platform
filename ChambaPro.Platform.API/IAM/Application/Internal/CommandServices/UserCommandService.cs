@@ -1,9 +1,9 @@
-﻿using Chambapro_backend.Shared.Domain.Repositories;
-using ChambaPro.Platform.API.IAM.Domain.Model.Aggregates;
+﻿using ChambaPro.Platform.API.IAM.Domain.Model.Aggregates;
 using ChambaPro.Platform.API.IAM.Domain.Model.Commands;
 using ChambaPro.Platform.API.IAM.Domain.Model.ValueObjects;
 using ChambaPro.Platform.API.IAM.Domain.Repositories;
 using ChambaPro.Platform.API.IAM.Domain.Services;
+using ChambaPro.Platform.API.Shared.Domain.Repositories;
 
 namespace ChambaPro.Platform.API.IAM.Application.Internal.CommandServices;
 
