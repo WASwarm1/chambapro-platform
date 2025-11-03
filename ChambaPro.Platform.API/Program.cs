@@ -11,6 +11,7 @@ using ChambaPro.Platform.API.Shared.Domain.Repositories;
 using ChambaPro.Platform.API.Shared.Infrastructure.Interfaces.ASP.Configuration;
 using ChambaPro.Platform.API.Shared.Infrastructure.Mediator.Cortex.Configuration;
 using ChambaPro.Platform.API.Shared.Infrastructure.Persistence.EFC.Configuration;
+using ChambaPro.Platform.API.Shared.Infrastructure.Mediator.Cortex.Configuration;
 using ChambaPro.Platform.API.Shared.Infrastructure.Persistence.EFC.Repositories;
 using Chambapro.Platform.API.User.Domain.Model.Aggregates;
 using Chambapro.Platform.API.User.Domain.Repositories;
