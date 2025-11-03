@@ -1,19 +1,14 @@
 namespace ChambaPro.Platform.API.IAM.Interfaces.Rest.Resources;
 
-public record UserResource(
-    int Id,
+public record SignUpResource(
     string Email,
+    string Password,
     string Name,
     string Lastname,
     string Phone,
-    string Avatar,
     string UserType,
-    DateTime CreatedAt,
     string? Speciality = null,
     string? Description = null,
     string? Experience = null,
-    decimal? Rating = null,
-    int? ReviewsCount = null,
-    decimal? HourlyRate = null,
-    bool? IsAvailable = null
+    decimal? HourlyRate = null
 );
