@@ -1,6 +1,6 @@
 namespace ChambaPro.Platform.API.Review.Domain.Models.Aggregates
 {
-    public class Review
+    public class Reviews
     {
         public int Id { get; private set; }
         public int TechnicianId { get; private set; }
@@ -9,9 +9,9 @@ namespace ChambaPro.Platform.API.Review.Domain.Models.Aggregates
         public string Comment { get; private set; }
         public DateTime CreationDate { get; private set; }
 
-        private Review() { }
+        private Reviews() { }
 
-        public Review(int technicianId, int clientId, int rating, string comment)
+        public Reviews(int technicianId, int clientId, int rating, string comment)
         {
             if (rating < 1 || rating > 5)
                 throw new ArgumentException("La puntuación debe estar entre 1 y 5.");

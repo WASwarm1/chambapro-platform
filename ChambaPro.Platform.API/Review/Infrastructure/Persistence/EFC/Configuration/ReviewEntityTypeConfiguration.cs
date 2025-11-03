@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ChambaPro.Platform.API.Review.Infrastructure.Persistence.EFC.Configuration
 {
-    public class ReviewEntityTypeConfiguration : IEntityTypeConfiguration<Review>
+    public class ReviewEntityTypeConfiguration : IEntityTypeConfiguration<Reviews>
     {
-        public void Configure(EntityTypeBuilder<Review> builder)
+        public void Configure(EntityTypeBuilder<Reviews> builder)
         {
             builder.ToTable("Reviews");
 

@@ -1,8 +1,9 @@
 using ChambaPro.Platform.API.Review.Application.Internal.CommandServices;
-using ChambaPro.Platform.API.Review.Domain.Repositories;
 using ChambaPro.Platform.API.Review.Domain.Models.Aggregates;
 using System.Threading.Tasks;
 using System;
+using ChambaPro.Platform.API.Review.Application.Commands;
+using ChambaPro.Platform.API.Review.Domain.Models.Repositories;
 
 namespace ChambaPro.Platform.API.Review.Application.Internal.CommandServices
 {
@@ -25,7 +26,7 @@ namespace ChambaPro.Platform.API.Review.Application.Internal.CommandServices
             }
 
 
-            var newReview = new Review(
+            var newReview = new Reviews(
                 command.TechnicianId,
                 command.ClientId,
                 command.Rating,

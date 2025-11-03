@@ -15,26 +15,26 @@ namespace ChambaPro.Platform.API.Review.Infrastructure.Persistence.EFC
             _context = context;
         }
 
-        public async Task AddAsync(Review review)
+        public async Task AddAsync(Reviews review)
         {
-            await _context.Set<Review>().AddAsync(review);
+            await _context.Set<Reviews>().AddAsync(review);
             await _context.SaveChangesAsync();
         }
 
-        public void Remove(Review review)
+        public void Remove(Reviews review)
         {
-            _context.Set<Review>().Remove(review);
+            _context.Set<Reviews>().Remove(review);
             _context.SaveChanges();
         }
 
-        public async Task<Review> FindByIdAsync(int id)
+        public async Task<Reviews> FindByIdAsync(int id)
         {
-            return await _context.Set<Review>().FirstOrDefaultAsync(r => r.Id == id);
+            return await _context.Set<Reviews>().FirstOrDefaultAsync(r => r.Id == id);
         }
 
-        public async Task<IEnumerable<Review>> FindByTechnicianIdAsync(int technicianId)
+        public async Task<IEnumerable<Reviews>> FindByTechnicianIdAsync(int technicianId)
         {
-            return await _context.Set<Review>()
+            return await _context.Set<Reviews>()
                 .Where(r => r.TechnicianId == technicianId)
                 .ToListAsync();
         }

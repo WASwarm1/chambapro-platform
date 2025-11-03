@@ -6,10 +6,10 @@ namespace ChambaPro.Platform.API.Review.Domain.Models.Repositories
 {
     public interface IReviewRepository
     {
-        Task AddAsync(Review review);
-        Task<Review> FindByIdAsync(int id);
-        Task<IEnumerable<Review>> FindByTechnicianIdAsync(int technicianId);
-        void Remove(Review review);
+        Task AddAsync(Reviews review);
+        Task<Reviews> FindByIdAsync(int id);
+        Task<IEnumerable<Reviews>> FindByTechnicianIdAsync(int technicianId);
+        void Remove(Reviews review);
 
     }
 }

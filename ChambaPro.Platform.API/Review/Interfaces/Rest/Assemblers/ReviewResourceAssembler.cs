@@ -3,6 +3,7 @@ using ChambaPro.Platform.API.Review.Interfaces.Rest.Resources;
 using ChambaPro.Platform.API.Review.Application.Internal.CommandServices;
 using System.Collections.Generic;
 using System.Linq;
+using ChambaPro.Platform.API.Review.Application.Commands;
 
 namespace ChambaPro.Platform.API.Review.Interfaces.Rest.Assemblers
 {
@@ -17,9 +18,9 @@ namespace ChambaPro.Platform.API.Review.Interfaces.Rest.Assemblers
                 Rating = resource.Rating,
                 Comment = resource.Comment
             };
-        } // <-- Esta llave faltaba
+        } 
 
-        public ReviewResource ToResourceFromEntity(Review entity)
+        public ReviewResource ToResourceFromEntity(Reviews entity)
         {
             return new ReviewResource
             {
@@ -31,7 +32,7 @@ namespace ChambaPro.Platform.API.Review.Interfaces.Rest.Assemblers
             };
         }
 
-        public IEnumerable<ReviewResource> ToResourceListFromEntityList(IEnumerable<Review> entityList)
+        public IEnumerable<ReviewResource> ToResourceListFromEntityList(IEnumerable<Reviews> entityList)
         {
             return entityList.Select(ToResourceFromEntity);
         }

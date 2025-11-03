@@ -1,8 +1,9 @@
 using ChambaPro.Platform.API.Review.Application.Internal.QueryServices;
-using ChambaPro.Platform.API.Review.Domain.Repositories;
 using ChambaPro.Platform.API.Review.Domain.Models.Aggregates;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using ChambaPro.Platform.API.Review.Application.Queries;
+using ChambaPro.Platform.API.Review.Domain.Models.Repositories;
 
 namespace ChambaPro.Platform.API.Review.Application.Internal.QueryServices
 {
@@ -15,7 +16,7 @@ namespace ChambaPro.Platform.API.Review.Application.Internal.QueryServices
             _reviewRepository = reviewRepository;
         }
 
-        public async Task<IEnumerable<Review>> Handle(GetReviewsByTechnicianIdQuery query)
+        public async Task<IEnumerable<Reviews>> Handle(GetReviewsByTechnicianIdQuery query)
         {
             var reviews = await _reviewRepository.FindByTechnicianIdAsync(query.TechnicianId);
 
