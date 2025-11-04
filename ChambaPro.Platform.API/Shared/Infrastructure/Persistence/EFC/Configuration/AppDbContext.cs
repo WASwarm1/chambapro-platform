@@ -33,8 +33,13 @@ public class AppDbContext : DbContext
 
         modelBuilder.Entity<Reserve>().HasKey(r => r.Id);
         modelBuilder.Entity<Reserve>().Property(r => r.Id).IsRequired().ValueGeneratedOnAdd();
-        modelBuilder.Entity<Reserve>().Property(r => r.Date).IsRequired();
-        modelBuilder.Entity<Reserve>().Property(r => r.Time).IsRequired();
+        modelBuilder.Entity<Reserve>().Property(r => r.Time)
+            .IsRequired()
+            .HasConversion(
+                timeSpan => timeSpan.ToString(@"hh\:mm\:ss"),
+                dbValue => ConvertMySqlTimeToTimeSpan(dbValue)
+            )
+            .HasColumnType("varchar(255)"); // TODO for front format: "HH:mm:ss"
         modelBuilder.Entity<Reserve>().Property(r => r.Description).HasMaxLength(500);
         modelBuilder.Entity<Reserve>().Property(r => r.ClientId).IsRequired().HasMaxLength(100);
         modelBuilder.Entity<Reserve>().Property(r => r.CategoryId).IsRequired().HasMaxLength(100);
@@ -92,5 +97,22 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Users>().HasIndex(u => u.Email).IsUnique();
 
         modelBuilder.UseSnakeCaseNamingConvention();
+    }
+    
+    private static TimeSpan ConvertMySqlTimeToTimeSpan(string mySqlTime)
+    {
+        if (string.IsNullOrEmpty(mySqlTime))
+            return TimeSpan.Zero;
+
+        if (mySqlTime.Contains(' '))
+        {
+            var parts = mySqlTime.Split(' ');
+            if (parts.Length >= 2)
+            {
+                return TimeSpan.Parse(parts[1].Split('.')[0]); 
+            }
+        }
+    
+        return TimeSpan.Parse(mySqlTime.Split('.')[0]); 
     }
 }
