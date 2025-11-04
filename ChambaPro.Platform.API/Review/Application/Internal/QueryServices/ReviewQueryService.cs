@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using ChambaPro.Platform.API.Review.Application.Queries;
 using ChambaPro.Platform.API.Review.Domain.Models.Repositories;
+using ChambaPro.Platform.API.Review.Domain.Services;
 
 namespace ChambaPro.Platform.API.Review.Application.Internal.QueryServices
 {
-    public class ReviewQueryService
+    public class ReviewQueryService : IReviewQueryService
     {
         private readonly IReviewRepository _reviewRepository;
 

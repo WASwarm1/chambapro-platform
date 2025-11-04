@@ -7,9 +7,9 @@ using ChambaPro.Platform.API.Review.Application.Commands;
 
 namespace ChambaPro.Platform.API.Review.Interfaces.Rest.Assemblers
 {
-    public class ReviewResourceAssembler
+    public static class ReviewResourceAssembler
     {
-        public SubmitReviewCommand ToCommandFromResource(CreateReviewResource resource)
+        public static SubmitReviewCommand ToCommandFromResource(CreateReviewResource resource)
         {
             return new SubmitReviewCommand
             {
@@ -20,7 +20,7 @@ namespace ChambaPro.Platform.API.Review.Interfaces.Rest.Assemblers
             };
         } 
 
-        public ReviewResource ToResourceFromEntity(Reviews entity)
+        public static ReviewResource ToResourceFromEntity(Reviews entity)
         {
             return new ReviewResource
             {
@@ -32,7 +32,7 @@ namespace ChambaPro.Platform.API.Review.Interfaces.Rest.Assemblers
             };
         }
 
-        public IEnumerable<ReviewResource> ToResourceListFromEntityList(IEnumerable<Reviews> entityList)
+        public static IEnumerable<ReviewResource> ToResourceListFromEntityList(IEnumerable<Reviews> entityList)
         {
             return entityList.Select(ToResourceFromEntity);
         }
