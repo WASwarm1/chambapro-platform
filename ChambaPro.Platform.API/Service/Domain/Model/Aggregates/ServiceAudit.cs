@@ -1,26 +1,10 @@
-﻿namespace ChambaPro.Platform.API.Service.Domain.Model.Aggregates;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using EntityFrameworkCore.CreatedUpdatedDate.Contracts;
 
-public class ServicesAudit
+namespace ChambaPro.Platform.API.Service.Domain.Model.Aggregates;
+
+public  partial class ServicesAudit : IEntityWithCreatedUpdatedDate
 {
-    public int Id { get; private set; }
-    public int ServiceId { get; private set; }
-    public string Action { get; private set; }
-    public string Description { get; private set; }
-    public int PerformedBy { get; private set; } 
-    public DateTime PerformedAt { get; private set; }
-    public string OldValues { get; private set; }
-    public string NewValues { get; private set; }
-
-    public ServicesAudit(int serviceId, string action, string description, int performedBy, string oldValues = "", string newValues = "")
-    {
-        ServiceId = serviceId;
-        Action = action;
-        Description = description;
-        PerformedBy = performedBy;
-        PerformedAt = DateTime.UtcNow;
-        OldValues = oldValues;
-        NewValues = newValues;
-    }
-
-    private ServicesAudit() { }
+    [Column("CreatedAt")] public DateTimeOffset? CreatedDate { get; set; }
+    [Column("UpdatedAt")] public DateTimeOffset? UpdatedDate { get; set; }
 }

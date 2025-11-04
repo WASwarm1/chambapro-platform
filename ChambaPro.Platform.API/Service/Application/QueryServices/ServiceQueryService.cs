@@ -7,28 +7,23 @@ namespace ChambaPro.Platform.API.Service.Application.QueryServices;
 
 public class ServiceQueryService(IServiceRepository repository) : IServiceQueryService
 {
-    public Task<Services?> Handle(GetServiceByIdQuery query)
+    public async Task<IEnumerable<Services>> Handle(GetAllServicesQuery query)
     {
-        throw new NotImplementedException();
+        return await repository.ListAsync();
     }
 
-    public Task<IEnumerable<Services>> Handle(GetAllServicesQuery query)
+    public async Task<Services?> Handle(GetServiceByIdQuery query)
     {
-        throw new NotImplementedException();
+        return await repository.FindByIdAsync(query.Id);
     }
 
-    public Task<IEnumerable<Services>> Handle(GetServicesByClientIdQuery query)
+    public async Task<IEnumerable<Services>> Handle(GetServicesByClientIdQuery query)
     {
-        throw new NotImplementedException();
+        return await repository.FindByClientIdAsync(query.ClientId);
     }
 
-    public Task<IEnumerable<Services>> Handle(GetServicesByTechnicianIdQuery query)
+    public async Task<IEnumerable<Services>> Handle(GetServicesByTechnicianIdQuery query)
     {
-        throw new NotImplementedException();
-    }
-
-    public Task<IEnumerable<ServicesAudit>> GetServiceAuditTrailAsync(int serviceId)
-    {
-        throw new NotImplementedException();
+        return await repository.FindByTechnicianIdAsync(query.TechnicianId);
     }
 }

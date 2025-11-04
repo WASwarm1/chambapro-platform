@@ -6,36 +6,131 @@ using ChambaPro.Platform.API.Shared.Domain.Repositories;
 
 namespace ChambaPro.Platform.API.Service.Application.CommandServices;
 
+/// <summary>
+/// Service Command Service Implementation
+/// </summary>
 public class ServiceCommandService(IServiceRepository repository, IUnitOfWork unitOfWork) 
     : IServiceCommandService
 {
-    public Task<Services> Handle(CreateServiceCommand command)
+    /// <inheritdoc />
+    public async Task<Services?> Handle(CreateServiceCommand command)
     {
-        throw new NotImplementedException();
+        var service = new Services(command);
+        try
+        {
+            await repository.AddAsync(service);
+            await unitOfWork.CompleteAsync();
+            return service;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"Error creating service: {e.Message}");
+            return null;
+        }
     }
 
-    public Task<Services> Handle(UpdateServiceCommand command)
+    /// <inheritdoc />
+    public async Task<Services?> Handle(UpdateServiceCommand command)
     {
-        throw new NotImplementedException();
+        var service = await repository.FindByIdAsync(command.Id);
+        
+        if (service == null)
+            return null;
+
+        service.UpdateFromCommand(command);
+
+        try
+        {
+            repository.Update(service);
+            await unitOfWork.CompleteAsync();
+            return service;
+        }
+        catch (Exception e)
+        {
+            throw new Exception($"Failed to update service {command.Id}", e);
+        }
     }
 
-    public Task Handle(DeleteServiceCommand command)
+    /// <inheritdoc />
+    public async Task<Services?> Handle(DeleteServiceCommand command)
     {
-        throw new NotImplementedException();
+        var service = await repository.FindByIdAsync(command.Id);
+        
+        if (service == null)
+            return null;
+
+        try
+        {
+            repository.Remove(service);
+            await unitOfWork.CompleteAsync();
+            return service;
+        }
+        catch (Exception e)
+        {
+            throw new Exception($"Failed to delete service {command.Id}", e);
+        }
     }
 
-    public Task<Services> Handle(CompleteServiceCommand command)
+    /// <inheritdoc />
+    public async Task<Services?> Handle(CompleteServiceCommand command)
     {
-        throw new NotImplementedException();
+        var service = await repository.FindByIdAsync(command.Id);
+        
+        if (service == null)
+            return null;
+
+        try
+        {
+            service.Complete();
+            repository.Update(service);
+            await unitOfWork.CompleteAsync();
+            return service;
+        }
+        catch (Exception e)
+        {
+            throw new Exception($"Failed to complete service {command.Id}", e);
+        }
     }
 
-    public Task<Services> Handle(ConfirmServiceCommand command)
+    /// <inheritdoc />
+    public async Task<Services?> Handle(ConfirmServiceCommand command)
     {
-        throw new NotImplementedException();
+        var service = await repository.FindByIdAsync(command.Id);
+        
+        if (service == null)
+            return null;
+
+        try
+        {
+            service.Confirm();
+            repository.Update(service);
+            await unitOfWork.CompleteAsync();
+            return service;
+        }
+        catch (Exception e)
+        {
+            throw new Exception($"Failed to confirm service {command.Id}", e);
+        }
     }
 
-    public Task<Services> Handle(CancelServiceCommand command)
+    /// <inheritdoc />
+    public async Task<Services?> Handle(CancelServiceCommand command)
     {
-        throw new NotImplementedException();
+        var service = await repository.FindByIdAsync(command.Id);
+        
+        if (service == null)
+            return null;
+
+        try
+        {
+            service.Cancel();
+            repository.Update(service);
+            await unitOfWork.CompleteAsync();
+            return service;
+        }
+        catch (Exception e)
+        {
+            throw new Exception($"Failed to cancel service {command.Id}", e);
+        }
     }
 }
