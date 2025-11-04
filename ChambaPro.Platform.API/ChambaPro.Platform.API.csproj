@@ -32,7 +32,8 @@
         <Folder Include="Profiles\Domain\Services\" />
         <Folder Include="Profiles\Infrastructure\" />
         <Folder Include="Profiles\Interfaces\" />
-        <Folder Include="Service\" />
+        <Folder Include="Service\Infrastructure\" />
+        <Folder Include="Service\Interfaces\" />
     </ItemGroup>
 
 </Project>
