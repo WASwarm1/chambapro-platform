@@ -1,7 +1,5 @@
-using System;
-using System.Threading.Tasks;
-using Chambapro.Platform.API.User.Domain.Repositories;
 using Chambapro.Platform.API.User.Application.DTOs;
+using Chambapro.Platform.API.User.Domain.Repositories;
 
 namespace Chambapro.Platform.API.User.Application.Internal.QueryServices
 {

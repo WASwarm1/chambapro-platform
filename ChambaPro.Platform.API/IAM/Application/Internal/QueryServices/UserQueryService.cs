@@ -14,17 +14,17 @@ public class UserQueryService : IUserQueryService
         _userRepository = userRepository;
     }
 
-    public async Task<User?> Handle(GetUserByIdQuery query)
+    public async Task<Users?> Handle(GetUserByIdQuery query)
     {
         return await _userRepository.FindByIdAsync(query.UserId);
     }
 
-    public async Task<User?> Handle(GetUserByEmailQuery query)
+    public async Task<Users?> Handle(GetUserByEmailQuery query)
     {
         return await _userRepository.FindByEmailAsync(query.email);
     }
 
-    public async Task<User?> Handle(GetUserByEmailAndTypeQuery query)
+    public async Task<Users?> Handle(GetUserByEmailAndTypeQuery query)
     {
         return await _userRepository.FindByEmailAndTypeAsync(
             query.Email, 
@@ -32,12 +32,12 @@ public class UserQueryService : IUserQueryService
         );
     }
 
-    public async Task<IEnumerable<User>> Handle(GetAllTechniciansQuery query)
+    public async Task<IEnumerable<Users>> Handle(GetAllTechniciansQuery query)
     {
         return await _userRepository.FindAllTechniciansAsync();
     }
 
-    public async Task<IEnumerable<User>> Handle(GetTechniciansBySpecialityQuery query)
+    public async Task<IEnumerable<Users>> Handle(GetTechniciansBySpecialityQuery query)
     {
         return await _userRepository.FindTechniciansBySpecialityAsync(query.Speciality);
     }

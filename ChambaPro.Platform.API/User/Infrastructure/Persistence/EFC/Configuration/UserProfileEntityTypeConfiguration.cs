@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Chambapro.Platform.API.User.Domain.Model.Aggregates;
+using ChambaPro.Platform.API.User.Domain.Model.Aggregates;
 
 namespace Chambapro.Platform.API.User.Infrastructure.Persistence.EFC.Configuration
 {

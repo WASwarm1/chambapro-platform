@@ -15,7 +15,7 @@ public class AuthorizeAttribute : Attribute, IAuthorizationFilter
         if (allowAnonymous)
             return;
 
-        var user = (Domain.Model.Aggregates.User?)context.HttpContext.Items["User"];
+        var user = (Domain.Model.Aggregates.Users?)context.HttpContext.Items["User"];
 
         if (user == null)
         {

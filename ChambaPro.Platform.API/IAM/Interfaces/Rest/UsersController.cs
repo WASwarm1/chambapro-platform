@@ -70,7 +70,7 @@ public class UsersController : ControllerBase
             int id, 
             [FromBody] UpdateProfileResource resource)
         {
-            var currentUser = (User?)HttpContext.Items["User"];
+            var currentUser = (Users?)HttpContext.Items["User"];
 
             if (currentUser == null || currentUser.Id != id)
                 return Unauthorized(new { message = "Unauthorized to update this profile" });
@@ -105,7 +105,7 @@ public class UsersController : ControllerBase
             int id,
             [FromBody] UpdateTechnicianProfileResource resource)
         {
-            var currentUser = (User?)HttpContext.Items["User"];
+            var currentUser = (Users?)HttpContext.Items["User"];
 
             if (currentUser == null || currentUser.Id != id)
                 return Unauthorized(new { message = "Unauthorized to update this profile" });
@@ -139,7 +139,7 @@ public class UsersController : ControllerBase
         [HttpGet("me")]
         public IActionResult GetCurrentUser()
         {
-            var currentUser = (User?)HttpContext.Items["User"];
+            var currentUser = (Users?)HttpContext.Items["User"];
 
             if (currentUser == null)
                 return Unauthorized(new { message = "Not authenticated" });

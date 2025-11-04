@@ -1,6 +1,6 @@
 using System;
 
-namespace Chambapro.Platform.API.User.Domain.Model.Aggregates
+namespace ChambaPro.Platform.API.User.Domain.Model.Aggregates
 {
     public class UserProfile
     {

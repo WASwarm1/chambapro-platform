@@ -5,8 +5,8 @@ namespace ChambaPro.Platform.API.IAM.Domain.Services;
 
 public interface IUserCommandService
 {
-    Task<(User?, string)> Handle(SignInCommand command);
-    Task<User?> Handle(SignUpCommand command);
-    Task<User?> Handle(UpdateProfileCommand command);
-    Task<User?> Handle(UpdateTechnicianProfileCommand command);
+    Task<(Users?, string)> Handle(SignInCommand command);
+    Task<Users?> Handle(SignUpCommand command);
+    Task<Users?> Handle(UpdateProfileCommand command);
+    Task<Users?> Handle(UpdateTechnicianProfileCommand command);
 }

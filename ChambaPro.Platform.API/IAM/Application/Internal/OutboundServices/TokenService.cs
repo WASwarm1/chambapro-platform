@@ -22,7 +22,7 @@ public class TokenService : ITokenService
         _tokenSettings = tokenSettings.Value;
     }
     
-    public string GenerateToken(User user)
+    public string GenerateToken(Users user)
     {
         var secret = Encoding.ASCII.GetBytes(_tokenSettings.Secret);
         var key = new SymmetricSecurityKey(secret);

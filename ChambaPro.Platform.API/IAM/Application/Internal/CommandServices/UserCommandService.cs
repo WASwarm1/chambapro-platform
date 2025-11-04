@@ -28,7 +28,7 @@ public class UserCommandService : IUserCommandService
     }
     
     
-    public async Task<(User?, string)> Handle(SignInCommand command)
+    public async Task<(Users?, string)> Handle(SignInCommand command)
     {
         var user = await _userRepository.FindByEmailAndTypeAsync(
             command.Email, 
@@ -46,18 +46,18 @@ public class UserCommandService : IUserCommandService
         return (user, token);
     }
 
-    public async Task<User?> Handle(SignUpCommand command)
+    public async Task<Users?> Handle(SignUpCommand command)
     {
         if (await _userRepository.ExistsByEmailAsync(command.Email))
             throw new Exception("User with this email already exists");
 
         var hashedPassword = _hashingService.HashPassword(command.Password);
 
-        User user;
+        Users user;
 
         if (command.UserType.ToLower() == "technician")
         {
-            user = new User(
+            user = new Users(
                 command.Email,
                 hashedPassword,
                 command.Name,
@@ -71,7 +71,7 @@ public class UserCommandService : IUserCommandService
         }
         else
         {
-            user = new User(
+            user = new Users(
                 command.Email,
                 hashedPassword,
                 command.Name,
@@ -93,7 +93,7 @@ public class UserCommandService : IUserCommandService
         }
     }
 
-    public async Task<User?> Handle(UpdateProfileCommand command)
+    public async Task<Users?> Handle(UpdateProfileCommand command)
     {
         var user = await _userRepository.FindByIdAsync(command.UserId);
             
@@ -119,7 +119,7 @@ public class UserCommandService : IUserCommandService
         }
     }
 
-    public async Task<User?> Handle(UpdateTechnicianProfileCommand command)
+    public async Task<Users?> Handle(UpdateTechnicianProfileCommand command)
     {
         var user = await _userRepository.FindByIdAsync(command.UserId);
             

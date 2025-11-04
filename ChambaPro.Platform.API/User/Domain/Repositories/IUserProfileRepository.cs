@@ -1,6 +1,6 @@
 using System;
 using System.Threading.Tasks;
-using Chambapro.Platform.API.User.Domain.Model.Aggregates;
+using ChambaPro.Platform.API.User.Domain.Model.Aggregates;
 
 namespace Chambapro.Platform.API.User.Domain.Repositories
 {

@@ -3,7 +3,7 @@ using ChambaPro.Platform.API.IAM.Domain.Model.ValueObjects;
 
 namespace ChambaPro.Platform.API.IAM.Domain.Model.Aggregates;
 
-public class User
+public class Users
 {
     public int Id { get; }
     public string Email {get; private set;}
@@ -22,7 +22,7 @@ public class User
     public decimal? HourlyRate {get; private set;}
     public bool? IsAvailable {get; private set;}
 
-    protected User()
+    protected Users()
     {
         Email = string.Empty;
         PasswordHash = string.Empty;
@@ -32,7 +32,7 @@ public class User
         Avatar = string.Empty;
     }
     
-    public User(string email, string passwordHash, string name, string lastName, string phone, UserType type)
+    public Users(string email, string passwordHash, string name, string lastName, string phone, UserType type)
     {
         Email = email;
         PasswordHash = passwordHash;
@@ -44,7 +44,7 @@ public class User
         CreatedAt = DateTime.UtcNow;
     }
 
-    public User(string email, string passwordHash, string name, string lastname,
+    public Users(string email, string passwordHash, string name, string lastname,
         string phone, string speciality, string description, string experience,
         decimal hourlyRate) : this(email, passwordHash, name, lastname, phone, UserType.Technician)
     {
@@ -57,7 +57,7 @@ public class User
         IsAvailable = true;
     }
     
-    public User UpdateProfile(string name, string lastname, string phone, string? avatar = null)
+    public Users UpdateProfile(string name, string lastname, string phone, string? avatar = null)
     {
         Name = name;
         LastName = lastname;
@@ -67,7 +67,7 @@ public class User
         return this;
     }
     
-    public User UpdateTechnicianProfile(string speciality, string description, 
+    public Users UpdateTechnicianProfile(string speciality, string description, 
         string experience, decimal hourlyRate, bool isAvailable)
     {
         if (Type != UserType.Technician)
@@ -81,13 +81,13 @@ public class User
         return this;
     }
     
-    public User UpdatePassword(string newPasswordHash)
+    public Users UpdatePassword(string newPasswordHash)
     {
         PasswordHash = newPasswordHash;
         return this;
     }
     
-    public User UpdateRating(decimal newRating, int newReviewsCount)
+    public Users UpdateRating(decimal newRating, int newReviewsCount)
     {
         if (Type != UserType.Technician)
             throw new InvalidOperationException("Only technicians have ratings");

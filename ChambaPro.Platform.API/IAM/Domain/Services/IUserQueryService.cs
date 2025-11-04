@@ -5,9 +5,9 @@ namespace ChambaPro.Platform.API.IAM.Domain.Services;
 
 public interface IUserQueryService
 {
-    Task<User?> Handle(GetUserByIdQuery query);
-    Task<User?> Handle(GetUserByEmailQuery query);
-    Task<User?> Handle(GetUserByEmailAndTypeQuery query);
-    Task<IEnumerable<User>> Handle(GetAllTechniciansQuery query);
-    Task<IEnumerable<User>> Handle(GetTechniciansBySpecialityQuery query);
+    Task<Users?> Handle(GetUserByIdQuery query);
+    Task<Users?> Handle(GetUserByEmailQuery query);
+    Task<Users?> Handle(GetUserByEmailAndTypeQuery query);
+    Task<IEnumerable<Users>> Handle(GetAllTechniciansQuery query);
+    Task<IEnumerable<Users>> Handle(GetTechniciansBySpecialityQuery query);
 }

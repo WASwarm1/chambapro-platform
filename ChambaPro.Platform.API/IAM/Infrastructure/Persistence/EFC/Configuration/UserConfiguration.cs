@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ChambaPro.Platform.API.IAM.Infrastructure.Persistence.EFC.Configuration;
 
-public class UserConfiguration : IEntityTypeConfiguration<User>
+public class UserConfiguration : IEntityTypeConfiguration<Users>
 {
-    public void Configure(EntityTypeBuilder<User> builder)
+    public void Configure(EntityTypeBuilder<Users> builder)
     {
         builder.ToTable("Users");
         builder.HasKey(u => u.Id);

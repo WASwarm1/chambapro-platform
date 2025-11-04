@@ -5,7 +5,7 @@ namespace ChambaPro.Platform.API.IAM.Interfaces.Rest.Transform;
 
 public static class UserResourceFromEntityAssembler
 {
-    public static UserResource ToResourceFromEntity(User entity)
+    public static UserResource ToResourceFromEntity(Users entity)
     {
         return new UserResource(
             entity.Id,

@@ -1,9 +1,8 @@
-using System;
-using System.Threading.Tasks;
-using Chambapro.Platform.API.User.Domain.Repositories;
-using Chambapro.Platform.API.User.Domain.Model.Aggregates;
-using Chambapro.Platform.API.User.Interfaces.Rest.Resources;
+
 using Chambapro.Platform.API.User.Application.DTOs;
+using ChambaPro.Platform.API.User.Domain.Model.Aggregates;
+using Chambapro.Platform.API.User.Domain.Repositories;
+using Chambapro.Platform.API.User.Interfaces.Rest.Resources;
 
 namespace Chambapro.Platform.API.User.Application.Internal.CommandServices
 {

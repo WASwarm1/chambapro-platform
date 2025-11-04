@@ -3,7 +3,7 @@ using ChambaPro.Platform.API.Reservation.Domain.Model.Aggregates;
 using ChambaPro.Platform.API.Review.Domain.Models.Aggregates;
 using ChambaPro.Platform.API.Service.Domain.Model.Aggregates;
 using ChambaPro.Platform.API.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
-using Chambapro.Platform.API.User.Domain.Model.Aggregates;
+using ChambaPro.Platform.API.User.Domain.Model.Aggregates;
 using EntityFrameworkCore.CreatedUpdatedDate.Extensions;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,7 +19,7 @@ public class AppDbContext : DbContext
     public DbSet<Reviews> Reviews { get; set; } = null!;
     public DbSet<Services> Services { get; set; } = null!;
     
-    public DbSet<User> Users { get; set; } = null!;
+    public DbSet<Users> Users { get; set; } = null!;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -60,21 +60,21 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Reviews>().Property(r => r.Comment).IsRequired().HasMaxLength(1000);
         modelBuilder.Entity<Reviews>().Property(r => r.CreationDate).IsRequired();
         
-        modelBuilder.Entity<User>().HasKey(u => u.Id);
-        modelBuilder.Entity<User>().Property(u => u.Id).IsRequired().ValueGeneratedOnAdd();
-        modelBuilder.Entity<User>().Property(u => u.Email).IsRequired().HasMaxLength(255);
-        modelBuilder.Entity<User>().Property(u => u.PasswordHash).IsRequired().HasMaxLength(255);
-        modelBuilder.Entity<User>().Property(u => u.Name).IsRequired().HasMaxLength(100);
-        modelBuilder.Entity<User>().Property(u => u.LastName).IsRequired().HasMaxLength(100);
-        modelBuilder.Entity<User>().Property(u => u.Phone).IsRequired().HasMaxLength(20);
-        modelBuilder.Entity<User>().Property(u => u.Avatar).IsRequired().HasMaxLength(500);
-        modelBuilder.Entity<User>().Property(u => u.Type).IsRequired().HasConversion<string>().HasMaxLength(20);
-        modelBuilder.Entity<User>().Property(u => u.CreatedAt).IsRequired();
-        modelBuilder.Entity<User>().Property(u => u.Speciality).HasMaxLength(100);
-        modelBuilder.Entity<User>().Property(u => u.Description).HasMaxLength(1000);
-        modelBuilder.Entity<User>().Property(u => u.Experience).HasMaxLength(500);
-        modelBuilder.Entity<User>().Property(u => u.Rating).HasPrecision(3, 2);
-        modelBuilder.Entity<User>().Property(u => u.HourlyRate).HasPrecision(10, 2);
+        modelBuilder.Entity<Users>().HasKey(u => u.Id);
+        modelBuilder.Entity<Users>().Property(u => u.Id).IsRequired().ValueGeneratedOnAdd();
+        modelBuilder.Entity<Users>().Property(u => u.Email).IsRequired().HasMaxLength(255);
+        modelBuilder.Entity<Users>().Property(u => u.PasswordHash).IsRequired().HasMaxLength(255);
+        modelBuilder.Entity<Users>().Property(u => u.Name).IsRequired().HasMaxLength(100);
+        modelBuilder.Entity<Users>().Property(u => u.LastName).IsRequired().HasMaxLength(100);
+        modelBuilder.Entity<Users>().Property(u => u.Phone).IsRequired().HasMaxLength(20);
+        modelBuilder.Entity<Users>().Property(u => u.Avatar).IsRequired().HasMaxLength(500);
+        modelBuilder.Entity<Users>().Property(u => u.Type).IsRequired().HasConversion<string>().HasMaxLength(20);
+        modelBuilder.Entity<Users>().Property(u => u.CreatedAt).IsRequired();
+        modelBuilder.Entity<Users>().Property(u => u.Speciality).HasMaxLength(100);
+        modelBuilder.Entity<Users>().Property(u => u.Description).HasMaxLength(1000);
+        modelBuilder.Entity<Users>().Property(u => u.Experience).HasMaxLength(500);
+        modelBuilder.Entity<Users>().Property(u => u.Rating).HasPrecision(3, 2);
+        modelBuilder.Entity<Users>().Property(u => u.HourlyRate).HasPrecision(10, 2);
         
         modelBuilder.Entity<Services>().HasKey(s => s.Id);
         modelBuilder.Entity<Services>().Property(s => s.Id).IsRequired().ValueGeneratedOnAdd();
@@ -89,7 +89,7 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Services>().Property(s => s.Duration).IsRequired().HasMaxLength(50);
         modelBuilder.Entity<Services>().Property(s => s.Address).IsRequired().HasMaxLength(500);
         
-        modelBuilder.Entity<User>().HasIndex(u => u.Email).IsUnique();
+        modelBuilder.Entity<Users>().HasIndex(u => u.Email).IsUnique();
 
         modelBuilder.UseSnakeCaseNamingConvention();
     }

@@ -6,7 +6,7 @@ namespace ChambaPro.Platform.API.IAM.Interfaces.Rest.Transform;
 public static class AuthenticatedUserResourceFromEntityAssembler
 {
     public static AuthenticatedUserResource ToResourceFromEntity(
-        User entity, string token)
+        Users entity, string token)
     {
         return new AuthenticatedUserResource(
             entity.Id,

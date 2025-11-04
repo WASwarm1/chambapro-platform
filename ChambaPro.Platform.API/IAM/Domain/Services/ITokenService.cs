@@ -4,6 +4,6 @@ namespace ChambaPro.Platform.API.IAM.Domain.Services;
 
 public interface ITokenService
 {
-    string GenerateToken(User user);
+    string GenerateToken(Users user);
     int? ValidateToken(string token);
 }
