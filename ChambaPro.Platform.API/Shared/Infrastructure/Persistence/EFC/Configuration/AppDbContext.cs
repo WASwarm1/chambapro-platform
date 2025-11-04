@@ -1,6 +1,7 @@
 ﻿using ChambaPro.Platform.API.IAM.Domain.Model.Aggregates;
 using ChambaPro.Platform.API.Reservation.Domain.Model.Aggregates;
 using ChambaPro.Platform.API.Review.Domain.Models.Aggregates;
+using ChambaPro.Platform.API.Service.Domain.Model.Aggregates;
 using ChambaPro.Platform.API.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using Chambapro.Platform.API.User.Domain.Model.Aggregates;
 using EntityFrameworkCore.CreatedUpdatedDate.Extensions;
@@ -16,6 +17,7 @@ public class AppDbContext : DbContext
     public DbSet<Reserve> Reserves { get; set; } = null!;
     public DbSet<UserProfile> UserProfiles { get; set; } = null!;
     public DbSet<Reviews> Reviews { get; set; } = null!;
+    public DbSet<Services> Services { get; set; } = null!;
     
     public DbSet<User> Users { get; set; } = null!;
 
@@ -73,6 +75,19 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<User>().Property(u => u.Experience).HasMaxLength(500);
         modelBuilder.Entity<User>().Property(u => u.Rating).HasPrecision(3, 2);
         modelBuilder.Entity<User>().Property(u => u.HourlyRate).HasPrecision(10, 2);
+        
+        modelBuilder.Entity<Services>().HasKey(s => s.Id);
+        modelBuilder.Entity<Services>().Property(s => s.Id).IsRequired().ValueGeneratedOnAdd();
+        modelBuilder.Entity<Services>().Property(s => s.ClientId).IsRequired();
+        modelBuilder.Entity<Services>().Property(s => s.TechnicianId).IsRequired();
+        modelBuilder.Entity<Services>().Property(s => s.Date).IsRequired();
+        modelBuilder.Entity<Services>().Property(s => s.Time).IsRequired().HasMaxLength(50);
+        modelBuilder.Entity<Services>().Property(s => s.Description).IsRequired().HasMaxLength(1000);
+        modelBuilder.Entity<Services>().Property(s => s.Category).IsRequired().HasMaxLength(100);
+        modelBuilder.Entity<Services>().Property(s => s.Status).IsRequired().HasConversion<string>().HasMaxLength(20);
+        modelBuilder.Entity<Services>().Property(s => s.Cost).IsRequired().HasPrecision(10, 2);
+        modelBuilder.Entity<Services>().Property(s => s.Duration).IsRequired().HasMaxLength(50);
+        modelBuilder.Entity<Services>().Property(s => s.Address).IsRequired().HasMaxLength(500);
         
         modelBuilder.Entity<User>().HasIndex(u => u.Email).IsUnique();
 
