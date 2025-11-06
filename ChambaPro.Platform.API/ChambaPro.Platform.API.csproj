@@ -25,14 +25,19 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Profiles\Application\" />
-        <Folder Include="Profiles\Domain\Model\Aggregates\" />
-        <Folder Include="Profiles\Domain\Model\Commands\" />
-        <Folder Include="Profiles\Domain\Model\Queries\" />
-        <Folder Include="Profiles\Domain\Repositories\" />
-        <Folder Include="Profiles\Domain\Services\" />
-        <Folder Include="Profiles\Infrastructure\" />
-        <Folder Include="Profiles\Interfaces\" />
+      <Compile Remove="Profiles\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="Profiles\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Remove="Profiles\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Profiles\**" />
     </ItemGroup>
 
 </Project>
