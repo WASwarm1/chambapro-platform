@@ -1,4 +1,5 @@
-﻿using ChambaPro.Platform.API.IAM.Domain.Model.Aggregates;
+﻿using System.Text.RegularExpressions;
+using ChambaPro.Platform.API.IAM.Domain.Model.Aggregates;
 using ChambaPro.Platform.API.IAM.Domain.Model.Commands;
 using ChambaPro.Platform.API.IAM.Domain.Model.ValueObjects;
 using ChambaPro.Platform.API.IAM.Domain.Repositories;
@@ -48,8 +49,15 @@ public class UserCommandService : IUserCommandService
 
     public async Task<Users?> Handle(SignUpCommand command)
     {
+        
+        if (!IsValidEmail(command.Email))
+            throw new Exception("Invalid email format");
+        
         if (await _userRepository.ExistsByEmailAsync(command.Email))
             throw new Exception("User with this email already exists");
+        
+        if (!IsValidPassword(command.Password))
+            throw new Exception("Password must be at least 8 characters long and contain uppercase, lowercase, and numbers");
 
         var hashedPassword = _hashingService.HashPassword(command.Password);
 
@@ -57,6 +65,14 @@ public class UserCommandService : IUserCommandService
 
         if (command.UserType.ToLower() == "technician")
         {
+            
+            if (command.HourlyRate.HasValue && command.HourlyRate.Value < 10)
+                throw new Exception("Hourly rate must be at least 10 soles");
+        
+            var validSpecialities = new[] { "Plumbing", "Electrical", "Carpentry", "Painting", "Locksmith" };
+            if (!validSpecialities.Contains(command.Speciality))
+                throw new Exception("Invalid speciality. Must be one of: Plumbing, Electrical, Carpentry, Painting, Locksmith");
+            
             user = new Users(
                 command.Email,
                 hashedPassword,
@@ -71,6 +87,10 @@ public class UserCommandService : IUserCommandService
         }
         else
         {
+
+            if (command.Speciality != null || command.HourlyRate.HasValue)
+                throw new Exception("Client users cannot have technician-specific data");
+            
             user = new Users(
                 command.Email,
                 hashedPassword,
@@ -125,6 +145,12 @@ public class UserCommandService : IUserCommandService
             
         if (user is null)
             throw new Exception("User not found");
+        
+        if (command.HourlyRate < 10 || command.HourlyRate > 500)
+            throw new Exception("Hourly rate must be between 10 and 500 soles");
+        
+        if (string.IsNullOrWhiteSpace(command.Description) || command.Description.Length < 20)
+            throw new Exception("Description must be at least 20 characters long");
 
         user.UpdateTechnicianProfile(
             command.Speciality,
@@ -145,4 +171,18 @@ public class UserCommandService : IUserCommandService
             throw new Exception($"An error occurred while updating technician profile: {e.Message}");
         }
     }
+    
+    private bool IsValidEmail(string email)
+    {
+        return Regex.IsMatch(email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$");
+    }
+
+    private bool IsValidPassword(string password)
+    {
+        return password.Length >= 8 
+               && password.Any(char.IsUpper) 
+               && password.Any(char.IsLower) 
+               && password.Any(char.IsDigit);
+    }
+    
 }
