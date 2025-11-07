@@ -4,10 +4,11 @@ using System.Threading.Tasks;
 using System;
 using ChambaPro.Platform.API.Review.Application.Commands;
 using ChambaPro.Platform.API.Review.Domain.Models.Repositories;
+using ChambaPro.Platform.API.Review.Domain.Services;
 
 namespace ChambaPro.Platform.API.Review.Application.Internal.CommandServices
 {
-    public class ReviewCommandService
+    public class ReviewCommandService : IReviewCommandService
     {
         private readonly IReviewRepository _reviewRepository;
 
@@ -16,15 +17,12 @@ namespace ChambaPro.Platform.API.Review.Application.Internal.CommandServices
             _reviewRepository = reviewRepository;
         }
 
-        public async Task<bool> Handle(SubmitReviewCommand command)
+        public async Task<Reviews?> Handle(SubmitReviewCommand command)
         {
-
             if (command.Rating < 1 || command.Rating > 5)
             {
-
-                return false;
+                return null;
             }
-
 
             var newReview = new Reviews(
                 command.TechnicianId,
@@ -35,7 +33,7 @@ namespace ChambaPro.Platform.API.Review.Application.Internal.CommandServices
 
             await _reviewRepository.AddAsync(newReview);
 
-            return true;
+            return newReview;
         }
     }
 }

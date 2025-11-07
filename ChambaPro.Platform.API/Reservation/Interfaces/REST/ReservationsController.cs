@@ -15,10 +15,22 @@ namespace ChambaPro.Platform.API.Reservation.Interfaces.REST;
 [SwaggerTag("Operations for managing reservations")]
 [Produces(MediaTypeNames.Application.Json)]
 [Tags("Reservations")]
-public class ReservationsController(
-    IReserveCommandService reserveCommandService, 
-    IReserveQueryService reserveQueryService) : ControllerBase
+public class ReservationsController : ControllerBase
 {
+    private readonly IReserveCommandService _reserveCommandService;
+    private readonly IReserveQueryService _reserveQueryService;
+    private readonly IStringLocalizer<ReservationsController> _localizer;
+
+    public ReservationsController(
+        IReserveCommandService reserveCommandService,
+        IReserveQueryService reserveQueryService,
+        IStringLocalizer<ReservationsController> localizer)
+    {
+        _reserveCommandService = reserveCommandService;
+        _reserveQueryService = reserveQueryService;
+        _localizer = localizer;
+    }
+
     [HttpPost]
     [SwaggerOperation(
         Summary = "Creates a new Reservation",
@@ -28,14 +40,14 @@ public class ReservationsController(
     public async Task<ActionResult> CreateReservation([FromBody] CreateReserveResource resource)
     {
         var createReserveCommand = CreateReserveCommandFromResourceAssembler.ToCommandFromResource(resource);
-        var result = await reserveCommandService.Handle(createReserveCommand);
-        
+        var result = await _reserveCommandService.Handle(createReserveCommand);
+
         if (result == null)
-            return BadRequest();
-        
+            return BadRequest(_localizer["ReservationCreationFailed"]);
+
         return CreatedAtAction(
-            nameof(GetReservationById), 
-            new { id = result.Id }, 
+            nameof(GetReservationById),
+            new { id = result.Id },
             ReserveResourceFromEntityAssembler.ToResourceFromEntity(result));
     }
 
@@ -49,13 +61,12 @@ public class ReservationsController(
     public async Task<ActionResult> GetReservationById(int id)
     {
         var getReserveByIdQuery = new GetReserveByIdQuery(id);
-        var result = await reserveQueryService.Handle(getReserveByIdQuery);
-        
+        var result = await _reserveQueryService.Handle(getReserveByIdQuery);
+
         if (result == null)
-            return NotFound();
-        
-        var reserveResource = ReserveResourceFromEntityAssembler.ToResourceFromEntity(result);
-        return Ok(reserveResource);
+            return NotFound(_localizer["ReservationNotFound"]);
+
+        return Ok(ReserveResourceFromEntityAssembler.ToResourceFromEntity(result));
     }
 
     [HttpGet]
@@ -65,13 +76,13 @@ public class ReservationsController(
         OperationId = "GetAllReservations")]
     [SwaggerResponse(StatusCodes.Status200OK, "The Reservations Were Found", typeof(IEnumerable<ReserveResource>))]
     public async Task<IActionResult> GetAllReservations(
-        [FromQuery] string? clientId, 
+        [FromQuery] string? clientId,
         [FromQuery] string? technicianId)
     {
         if (!string.IsNullOrEmpty(clientId))
         {
             var getReservesByClientIdQuery = new GetReservesByClientIdQuery(clientId);
-            var clientReserves = await reserveQueryService.Handle(getReservesByClientIdQuery);
+            var clientReserves = await _reserveQueryService.Handle(getReservesByClientIdQuery);
             var clientResult = clientReserves.Select(ReserveResourceFromEntityAssembler.ToResourceFromEntity).ToList();
             return Ok(clientResult);
         }
@@ -79,13 +90,13 @@ public class ReservationsController(
         if (!string.IsNullOrEmpty(technicianId))
         {
             var getReservesByTechnicianIdQuery = new GetReservesByTechnicianIdQuery(technicianId);
-            var technicianReserves = await reserveQueryService.Handle(getReservesByTechnicianIdQuery);
+            var technicianReserves = await _reserveQueryService.Handle(getReservesByTechnicianIdQuery);
             var technicianResult = technicianReserves.Select(ReserveResourceFromEntityAssembler.ToResourceFromEntity).ToList();
             return Ok(technicianResult);
         }
 
         var getAllReservesQuery = new GetAllReservesQuery();
-        var reserves = await reserveQueryService.Handle(getAllReservesQuery);
+        var reserves = await _reserveQueryService.Handle(getAllReservesQuery);
         var result = reserves.Select(ReserveResourceFromEntityAssembler.ToResourceFromEntity).ToList();
         return Ok(result);
     }
@@ -101,18 +112,14 @@ public class ReservationsController(
     public async Task<ActionResult> UpdateReservation(int id, [FromBody] UpdateReserveResource resource)
     {
         if (id != resource.Id)
-        {
-            return BadRequest("Invalid Reservation Id");
-        }
-        
+            return BadRequest(_localizer["InvalidReservationId"]);
+
         var updateReserveCommand = UpdateReserveCommandFromResourceAssembler.ToCommandFromResource(resource);
-        var result = await reserveCommandService.Handle(updateReserveCommand);
+        var result = await _reserveCommandService.Handle(updateReserveCommand);
 
         if (result == null)
-        {
-            return NotFound("The Reservation Was Not Found");
-        }
-        
+            return NotFound(_localizer["ReservationNotFound"]);
+
         return Ok(ReserveResourceFromEntityAssembler.ToResourceFromEntity(result));
     }
 
@@ -126,12 +133,10 @@ public class ReservationsController(
     public async Task<ActionResult> CancelReservation(int id)
     {
         var cancelReserveCommand = new CancelReserveCommand(id);
-        var result = await reserveCommandService.Handle(cancelReserveCommand);
+        var result = await _reserveCommandService.Handle(cancelReserveCommand);
 
         if (result == null)
-        {
-            return NotFound("The Reservation Was Not Found");
-        }
+            return NotFound(_localizer["ReservationNotFound"]);
 
         return Ok(ReserveResourceFromEntityAssembler.ToResourceFromEntity(result));
     }
@@ -146,13 +151,11 @@ public class ReservationsController(
     public async Task<ActionResult> DeleteReservation(int id)
     {
         var deleteReserveCommand = new DeleteReserveCommand(id);
-        var result = await reserveCommandService.Handle(deleteReserveCommand);
+        var result = await _reserveCommandService.Handle(deleteReserveCommand);
 
         if (result == null)
-        {
-            return NotFound("The Reservation Was Not Found");
-        }
-        
+            return NotFound(_localizer["ReservationNotFound"]);
+
         return NoContent();
     }
 }

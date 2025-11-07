@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Net.Mime;
+using ChambaPro.Platform.API.Review.Domain.Services;
 
 namespace ChambaPro.Platform.API.Review.Interfaces.Rest.Controllers
 {
@@ -16,15 +17,18 @@ namespace ChambaPro.Platform.API.Review.Interfaces.Rest.Controllers
     [Produces(MediaTypeNames.Application.Json)]
     public class ReviewController : ControllerBase
     {
-        private readonly ReviewCommandService _commandService;
-        private readonly ReviewQueryService _queryService;
-        private readonly ReviewResourceAssembler _assembler;
+        private readonly IReviewCommandService _commandService;
+        private readonly IReviewQueryService _queryService;
+        private readonly IStringLocalizer _localizer;
 
-        public ReviewController(ReviewCommandService commandService, ReviewQueryService queryService, ReviewResourceAssembler assembler)
+        public ReviewController(
+            IReviewCommandService commandService,
+            IReviewQueryService queryService,
+            IStringLocalizerFactory localizerFactory)
         {
             _commandService = commandService;
             _queryService = queryService;
-            _assembler = assembler;
+            _localizer = localizerFactory.Create("ReviewController", typeof(ReviewController).Assembly.GetName().Name!);
         }
 
         [HttpPost]
@@ -32,16 +36,15 @@ namespace ChambaPro.Platform.API.Review.Interfaces.Rest.Controllers
         [ProducesResponseType(typeof(BadRequestResult), 400)]
         public async Task<IActionResult> SubmitReview([FromBody] CreateReviewResource resource)
         {
-            var command = _assembler.ToCommandFromResource(resource);
+            var command = ReviewResourceAssembler.ToCommandFromResource(resource);
+            var result = await _commandService.Handle(command);
 
-            var success = await _commandService.Handle(command);
-
-            if (!success)
+            if (result == null)
             {
-                return BadRequest("No se pudo procesar la reseña, verifique los datos.");
+                return BadRequest(new { message = _localizer["Review_Creation_Failed"] });
             }
 
-            return StatusCode(201, "Reseña creada exitosamente.");
+            return StatusCode(201, new { message = _localizer["Review_Creation_Success"] });
         }
 
         [HttpGet("technician/{technicianId:int}")]
@@ -49,12 +52,14 @@ namespace ChambaPro.Platform.API.Review.Interfaces.Rest.Controllers
         public async Task<IActionResult> GetReviewsByTechnicianId(int technicianId)
         {
             var query = new GetReviewsByTechnicianIdQuery(technicianId);
-
             var reviews = await _queryService.Handle(query);
+            var reviewResources = ReviewResourceAssembler.ToResourceListFromEntityList(reviews);
 
-            var reviewResources = _assembler.ToResourceListFromEntityList(reviews);
-
-            return Ok(reviewResources);
+            return Ok(new
+            {
+                message = _localizer["Reviews_Fetched"],
+                data = reviewResources
+            });
         }
     }
 }
