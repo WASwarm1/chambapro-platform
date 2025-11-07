@@ -40,4 +40,55 @@
       <None Remove="Profiles\**" />
     </ItemGroup>
 
+	<ItemGroup>
+		<EmbeddedResource Update="Resources\Reservation\ReservationController.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>ReservationController.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+
+		<EmbeddedResource Include="Resources\Reservation\ReservationController.es.resx">
+			<DependentUpon>ReservationController.resx</DependentUpon>
+		</EmbeddedResource>
+		
+		<Compile Update="Resources\Reservation\ReservationController.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>ReservationController.resx</DependentUpon>
+		</Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Update="Resources\Review\ReviewController.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>ReviewController.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+
+		<EmbeddedResource Include="Resources\Review\ReviewController.es.resx">
+			<DependentUpon>ReviewController.resx</DependentUpon>
+		</EmbeddedResource>
+
+		<Compile Update="Resources\Review\ReviewController.Designer.cs">
+			<AutoGen>True</AutoGen>
+			<DesignTime>True</DesignTime>
+			<DependentUpon>ReviewController.resx</DependentUpon>
+		</Compile>
+	</ItemGroup>
+	
+	<ItemGroup>
+		<EmbeddedResource Update="Resources\User\UserController.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>UserController.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+
+		<EmbeddedResource Include="Resources\User\UserController.es.resx">
+			<DependentUpon>UserController.resx</DependentUpon>
+		</EmbeddedResource>
+
+		<Compile Update="Resources\User\UserController.Designer.cs">
+			<AutoGen>True</AutoGen>
+			<DesignTime>True</DesignTime>
+			<DependentUpon>UserController.resx</DependentUpon>
+		</Compile>
+	</ItemGroup>
+
 </Project>
