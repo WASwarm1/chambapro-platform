@@ -18,134 +18,131 @@ namespace ChambaPro.Platform.API.IAM.Interfaces.Rest;
 public class UsersController : ControllerBase
 {
     private readonly IUserCommandService _userCommandService;
-        private readonly IUserQueryService _userQueryService;
+    private readonly IUserQueryService _userQueryService;
 
-        public UsersController(
-            IUserCommandService userCommandService,
-            IUserQueryService userQueryService)
-        {
-            _userCommandService = userCommandService;
-            _userQueryService = userQueryService;
-        }
+    public UsersController(IUserCommandService userCommandService, IUserQueryService userQueryService)
+    {
+        _userCommandService = userCommandService;
+        _userQueryService = userQueryService;
 
-        [HttpGet("{id:int}")]
-        public async Task<IActionResult> GetUserById(int id)
+        var type = typeof(UsersController);
+        _localizer = localizerFactory.Create("UserController", type.Assembly.GetName().Name!);
+    }
+
+    [HttpGet("{id:int}")]
+    public async Task<IActionResult> GetUserById(int id)
+    {
+        var getUserByIdQuery = new GetUserByIdQuery(id);
+        var result = await _userQueryService.Handle(getUserByIdQuery);
+
+        if (result is null)
+            return NotFound(new { message = _localizer["UserNotFound"] });
+
+        var resource = UserResourceFromEntityAssembler.ToResourceFromEntity(result);
+        return Ok(resource);
+    }
+
+    [HttpGet("technicians")]
+    public async Task<IActionResult> GetAllTechnicians()
+    {
+        var getAllTechniciansQuery = new GetAllTechniciansQuery();
+        var result = await _userQueryService.Handle(getAllTechniciansQuery);
+
+        var resources = result.Select(UserResourceFromEntityAssembler
+            .ToResourceFromEntity);
+
+        return Ok(resources);
+    }
+
+    [HttpGet("technicians/by-speciality/{speciality}")]
+    public async Task<IActionResult> GetTechniciansBySpeciality(string speciality)
+    {
+        var query = new GetTechniciansBySpecialityQuery(speciality);
+        var result = await _userQueryService.Handle(query);
+
+        var resources = result.Select(UserResourceFromEntityAssembler
+            .ToResourceFromEntity);
+
+        return Ok(resources);
+    }
+
+    [HttpPut("{id:int}/profile")]
+    public async Task<IActionResult> UpdateProfile(int id, [FromBody] UpdateProfileResource resource)
+    {
+        var currentUser = (Users?)HttpContext.Items["User"];
+
+        if (currentUser == null || currentUser.Id != id)
+            return Unauthorized(new { message = _localizer["UnauthorizedToUpdateProfile"] });
+
+        var command = new UpdateProfileCommand(
+            id,
+            resource.Name,
+            resource.Lastname,
+            resource.Phone,
+            resource.Avatar
+        );
+
+        try
         {
-            var getUserByIdQuery = new GetUserByIdQuery(id);
-            var result = await _userQueryService.Handle(getUserByIdQuery);
+            var result = await _userCommandService.Handle(command);
 
             if (result is null)
-                return NotFound(new { message = "User not found" });
+                return BadRequest(new { message = _localizer["ProfileUpdateFailed"] });
 
-            var resource = UserResourceFromEntityAssembler.ToResourceFromEntity(result);
-            return Ok(resource);
+            var userResource = UserResourceFromEntityAssembler
+                .ToResourceFromEntity(result);
+            return Ok(userResource);
         }
-
-        [HttpGet("technicians")]
-        public async Task<IActionResult> GetAllTechnicians()
+        catch (Exception e)
         {
-            var getAllTechniciansQuery = new GetAllTechniciansQuery();
-            var result = await _userQueryService.Handle(getAllTechniciansQuery);
-
-            var resources = result.Select(UserResourceFromEntityAssembler
-                .ToResourceFromEntity);
-
-            return Ok(resources);
+            return BadRequest(new { message = e.Message });
         }
+    }
 
-        [HttpGet("technicians/by-speciality/{speciality}")]
-        public async Task<IActionResult> GetTechniciansBySpeciality(string speciality)
+    [HttpPut("{id:int}/technician-profile")]
+    public async Task<IActionResult> UpdateTechnicianProfile(int id, [FromBody] UpdateTechnicianProfileResource resource)
+    {
+        var currentUser = (Users?)HttpContext.Items["User"];
+
+        if (currentUser == null || currentUser.Id != id)
+            return Unauthorized(new { message = _localizer["UnauthorizedToUpdateProfile"] });
+
+        var command = new UpdateTechnicianProfileCommand(
+            id,
+            resource.Speciality,
+            resource.Description,
+            resource.Experience,
+            resource.HourlyRate,
+            resource.IsAvailable
+        );
+
+        try
         {
-            var query = new GetTechniciansBySpecialityQuery(speciality);
-            var result = await _userQueryService.Handle(query);
+            var result = await _userCommandService.Handle(command);
 
-            var resources = result.Select(UserResourceFromEntityAssembler
-                .ToResourceFromEntity);
+            if (result is null)
+                return BadRequest(new { message = _localizer["ProfileUpdateFailed"] });
 
-            return Ok(resources);
+            var userResource = UserResourceFromEntityAssembler
+                .ToResourceFromEntity(result);
+            return Ok(userResource);
         }
-
-        [HttpPut("{id:int}/profile")]
-        public async Task<IActionResult> UpdateProfile(
-            int id, 
-            [FromBody] UpdateProfileResource resource)
+        catch (Exception e)
         {
-            var currentUser = (Users?)HttpContext.Items["User"];
-
-            if (currentUser == null || currentUser.Id != id)
-                return Unauthorized(new { message = "Unauthorized to update this profile" });
-
-            var command = new UpdateProfileCommand(
-                id,
-                resource.Name,
-                resource.Lastname,
-                resource.Phone,
-                resource.Avatar
-            );
-
-            try
-            {
-                var result = await _userCommandService.Handle(command);
-                
-                if (result is null)
-                    return BadRequest(new { message = "Profile update failed" });
-
-                var userResource = UserResourceFromEntityAssembler
-                    .ToResourceFromEntity(result);
-                return Ok(userResource);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(new { message = e.Message });
-            }
+            return BadRequest(new { message = e.Message });
         }
+    }
 
-        [HttpPut("{id:int}/technician-profile")]
-        public async Task<IActionResult> UpdateTechnicianProfile(
-            int id,
-            [FromBody] UpdateTechnicianProfileResource resource)
-        {
-            var currentUser = (Users?)HttpContext.Items["User"];
+    [HttpGet("me")]
+    public IActionResult GetCurrentUser()
+    {
+        var currentUser = (Users?)HttpContext.Items["User"];
 
-            if (currentUser == null || currentUser.Id != id)
-                return Unauthorized(new { message = "Unauthorized to update this profile" });
+        if (currentUser == null)
+            return Unauthorized(new { message = _localizer["NotAuthenticated"] });
 
-            var command = new UpdateTechnicianProfileCommand(
-                id,
-                resource.Speciality,
-                resource.Description,
-                resource.Experience,
-                resource.HourlyRate,
-                resource.IsAvailable
-            );
-
-            try
-            {
-                var result = await _userCommandService.Handle(command);
-                
-                if (result is null)
-                    return BadRequest(new { message = "Profile update failed" });
-
-                var userResource = UserResourceFromEntityAssembler
-                    .ToResourceFromEntity(result);
-                return Ok(userResource);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(new { message = e.Message });
-            }
-        }
-
-        [HttpGet("me")]
-        public IActionResult GetCurrentUser()
-        {
-            var currentUser = (Users?)HttpContext.Items["User"];
-
-            if (currentUser == null)
-                return Unauthorized(new { message = "Not authenticated" });
-
-            var resource = UserResourceFromEntityAssembler
-                .ToResourceFromEntity(currentUser);
-            return Ok(resource);
-        }
+        var resource = UserResourceFromEntityAssembler
+            .ToResourceFromEntity(currentUser);
+        return Ok(resource);
+    }
 }

@@ -19,13 +19,16 @@ namespace ChambaPro.Platform.API.Review.Interfaces.Rest.Controllers
     {
         private readonly IReviewCommandService _commandService;
         private readonly IReviewQueryService _queryService;
+        private readonly IStringLocalizer _localizer;
 
         public ReviewController(
-            IReviewCommandService commandService, 
-            IReviewQueryService queryService)
+            IReviewCommandService commandService,
+            IReviewQueryService queryService,
+            IStringLocalizerFactory localizerFactory)
         {
             _commandService = commandService;
             _queryService = queryService;
+            _localizer = localizerFactory.Create("ReviewController", typeof(ReviewController).Assembly.GetName().Name!);
         }
 
         [HttpPost]
@@ -38,10 +41,10 @@ namespace ChambaPro.Platform.API.Review.Interfaces.Rest.Controllers
 
             if (result == null)
             {
-                return BadRequest("No se pudo procesar la reseña, verifique los datos.");
+                return BadRequest(new { message = _localizer["Review_Creation_Failed"] });
             }
 
-            return StatusCode(201, "Reseña creada exitosamente.");
+            return StatusCode(201, new { message = _localizer["Review_Creation_Success"] });
         }
 
         [HttpGet("technician/{technicianId:int}")]
@@ -51,7 +54,12 @@ namespace ChambaPro.Platform.API.Review.Interfaces.Rest.Controllers
             var query = new GetReviewsByTechnicianIdQuery(technicianId);
             var reviews = await _queryService.Handle(query);
             var reviewResources = ReviewResourceAssembler.ToResourceListFromEntityList(reviews);
-            return Ok(reviewResources);
+
+            return Ok(new
+            {
+                message = _localizer["Reviews_Fetched"],
+                data = reviewResources
+            });
         }
     }
 }
