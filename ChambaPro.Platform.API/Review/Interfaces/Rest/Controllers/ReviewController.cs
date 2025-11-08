@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Net.Mime;
 using ChambaPro.Platform.API.Review.Domain.Services;
+using Microsoft.Extensions.Localization;
 
 namespace ChambaPro.Platform.API.Review.Interfaces.Rest.Controllers
 {

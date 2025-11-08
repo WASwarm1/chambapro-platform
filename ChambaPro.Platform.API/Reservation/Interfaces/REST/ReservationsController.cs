@@ -5,6 +5,7 @@ using ChambaPro.Platform.API.Reservation.Domain.Services;
 using ChambaPro.Platform.API.Reservation.Interfaces.REST.Resources;
 using ChambaPro.Platform.API.Reservation.Interfaces.REST.Transform;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace ChambaPro.Platform.API.Reservation.Interfaces.REST;
