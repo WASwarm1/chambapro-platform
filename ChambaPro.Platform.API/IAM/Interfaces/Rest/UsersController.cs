@@ -8,7 +8,7 @@ using ChambaPro.Platform.API.IAM.Interfaces.Rest.Resources;
 using ChambaPro.Platform.API.IAM.Interfaces.Rest.Transform;
 
 using Microsoft.AspNetCore.Mvc;
-
+using Microsoft.Extensions.Localization;
 namespace ChambaPro.Platform.API.IAM.Interfaces.Rest;
 
 [Authorize]
@@ -19,14 +19,15 @@ public class UsersController : ControllerBase
 {
     private readonly IUserCommandService _userCommandService;
     private readonly IUserQueryService _userQueryService;
+    private readonly IStringLocalizer<UsersController> _localizer;
 
-    public UsersController(IUserCommandService userCommandService, IUserQueryService userQueryService)
+    public UsersController(IUserCommandService userCommandService, IUserQueryService userQueryService, IStringLocalizer<UsersController> localizer)
     {
         _userCommandService = userCommandService;
         _userQueryService = userQueryService;
+        _localizer = localizer;
 
         var type = typeof(UsersController);
-        _localizer = localizerFactory.Create("UserController", type.Assembly.GetName().Name!);
     }
 
     [HttpGet("{id:int}")]

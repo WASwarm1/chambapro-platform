@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+    <data name="UserRegistrationFailed" xml:space="preserve">
+    <value>User Registration Failed</value>
+  </data>
+    <data name="UserRegisteredSuccessfully" xml:space="preserve">
+    <value>User Registered Successfully</value>
+  </data>
+    <data name="UserNotFound" xml:space="preserve">
+    <value>User Not Found</value>
+  </data>
+    <data name="UnauthorizedToUpdateProfile" xml:space="preserve">
+    <value>Unauthorized To Update Profile</value>
+  </data>
+    <data name="ProfileUpdateFailed" xml:space="preserve">
+    <value>Profile Update Failed</value>
+  </data>
+  <data name="NotAuthenticated" xml:space="preserve">
+    <value>Not Authenticated</value>
+  </data>
+</root>
