@@ -30,6 +30,30 @@ public class AppDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+        
+        modelBuilder.Entity<Reserve>()
+            .HasOne<Users>()
+            .WithMany()
+            .HasForeignKey(r => r.ClientId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<Reserve>()
+            .HasOne<Users>()
+            .WithMany()
+            .HasForeignKey(r => r.TechnicianId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<Reviews>()
+            .HasOne<Users>()
+            .WithMany()
+            .HasForeignKey(r => r.TechnicianId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<Reviews>()
+            .HasOne<Users>()
+            .WithMany()
+            .HasForeignKey(r => r.ClientId)
+            .OnDelete(DeleteBehavior.Restrict);
 
         modelBuilder.Entity<Reserve>().HasKey(r => r.Id);
         modelBuilder.Entity<Reserve>().Property(r => r.Id).IsRequired().ValueGeneratedOnAdd();
@@ -39,7 +63,7 @@ public class AppDbContext : DbContext
                 timeSpan => timeSpan.ToString(@"hh\:mm\:ss"),
                 dbValue => ConvertMySqlTimeToTimeSpan(dbValue)
             )
-            .HasColumnType("varchar(255)"); // TODO for front format: "HH:mm:ss"
+            .HasColumnType("varchar(255)"); // TODO for front format: "hh:mm:ss"
         modelBuilder.Entity<Reserve>().Property(r => r.Description).HasMaxLength(500);
         modelBuilder.Entity<Reserve>().Property(r => r.ClientId).IsRequired().HasMaxLength(100);
         modelBuilder.Entity<Reserve>().Property(r => r.CategoryId).IsRequired().HasMaxLength(100);

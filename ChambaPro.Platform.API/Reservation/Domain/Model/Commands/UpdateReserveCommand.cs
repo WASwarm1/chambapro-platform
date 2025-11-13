@@ -7,8 +7,8 @@ public record UpdateReserveCommand(
     DateTime Date,
     TimeSpan Time,
     string Description,
-    string ClientId,
+    int ClientId,
     string CategoryId,
-    string? TechnicianId,
+    int? TechnicianId,
     ReservationStatus Status
 );

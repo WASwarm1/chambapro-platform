@@ -4,6 +4,6 @@ public record CreateReserveCommand(
     DateTime Date,
     TimeSpan Time,
     string Description,
-    string ClientId,
+    int ClientId,
     string CategoryId
 );

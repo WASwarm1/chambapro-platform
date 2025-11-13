@@ -8,20 +8,20 @@ public partial class Reserve
     public DateTime Date { get; private set; }
     public TimeSpan Time { get; private set; }
     public string Description { get; private set; }
-    public string ClientId { get; private set; }
+    public int ClientId { get; private set; }
     public string CategoryId { get; private set; }
-    public string? TechnicianId { get; private set; }
+    public int? TechnicianId { get; private set; }
     public ReservationStatus Status { get; private set; }
 
     public Reserve()
     {
         Description = string.Empty;
-        ClientId = string.Empty;
+        ClientId = 0;
         CategoryId = string.Empty;
         Status = ReservationStatus.Pending;
     }
 
-    public Reserve(DateTime date, TimeSpan time, string description, string clientId, string categoryId)
+    public Reserve(DateTime date, TimeSpan time, string description, int clientId, string categoryId)
     {
         Date = date;
         Time = time;
@@ -65,7 +65,7 @@ public partial class Reserve
         Status = ReservationStatus.Cancelled;
     }
 
-    public void AssignTechnician(string technicianId)
+    public void AssignTechnician(int technicianId)
     {
         if (Status == ReservationStatus.Cancelled)
             throw new InvalidOperationException("Cannot assign technician to cancelled reservation");

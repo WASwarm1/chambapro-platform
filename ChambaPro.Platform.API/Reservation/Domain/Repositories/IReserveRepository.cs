@@ -6,6 +6,6 @@ namespace ChambaPro.Platform.API.Reservation.Domain.Repositories;
 public interface IReserveRepository : IBaseRepository<Reserve>
     
 {
-    Task<IEnumerable<Reserve>> FindByClientIdAsync(string clientId);
-    Task<IEnumerable<Reserve>> FindByTechnicianIdAsync(string technicianId);
+    Task<IEnumerable<Reserve>> FindByClientIdAsync(int clientId);
+    Task<IEnumerable<Reserve>> FindByTechnicianIdAsync(int technicianId);
 }

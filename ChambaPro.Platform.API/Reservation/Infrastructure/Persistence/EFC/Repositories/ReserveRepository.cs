@@ -9,14 +9,14 @@ namespace ChambaPro.Platform.API.Reservation.Infrastructure.Persistence.EFC.Repo
 public class ReserveRepository(AppDbContext context)
     : BaseRepository<Reserve>(context), IReserveRepository
 {
-    public async Task<IEnumerable<Reserve>> FindByClientIdAsync(string clientId)
+    public async Task<IEnumerable<Reserve>> FindByClientIdAsync(int clientId)
     {
         return await Context.Set<Reserve>()
             .Where(r => r.ClientId == clientId)
             .ToListAsync();
     }
 
-    public async Task<IEnumerable<Reserve>> FindByTechnicianIdAsync(string technicianId)
+    public async Task<IEnumerable<Reserve>> FindByTechnicianIdAsync(int technicianId)
     {
         return await Context.Set<Reserve>()
             .Where(r => r.TechnicianId == technicianId)

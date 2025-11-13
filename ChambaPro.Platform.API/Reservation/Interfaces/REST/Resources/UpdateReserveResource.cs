@@ -5,8 +5,8 @@ public record UpdateReserveResource(
     DateTime Date,
     string Time,
     string Description,
-    string ClientId,
+    int ClientId,
     string CategoryId,
-    string? TechnicianId,
+    int? TechnicianId,
     string Status
 );

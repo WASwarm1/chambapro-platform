@@ -77,10 +77,10 @@ public class ReservationsController : ControllerBase
         OperationId = "GetAllReservations")]
     [SwaggerResponse(StatusCodes.Status200OK, "The Reservations Were Found", typeof(IEnumerable<ReserveResource>))]
     public async Task<IActionResult> GetAllReservations(
-        [FromQuery] string? clientId,
-        [FromQuery] string? technicianId)
+        [FromQuery] int clientId,
+        [FromQuery] int technicianId)
     {
-        if (!string.IsNullOrEmpty(clientId))
+        if ((clientId) != null)
         {
             var getReservesByClientIdQuery = new GetReservesByClientIdQuery(clientId);
             var clientReserves = await _reserveQueryService.Handle(getReservesByClientIdQuery);
@@ -88,7 +88,7 @@ public class ReservationsController : ControllerBase
             return Ok(clientResult);
         }
 
-        if (!string.IsNullOrEmpty(technicianId))
+        if ((technicianId) != null)
         {
             var getReservesByTechnicianIdQuery = new GetReservesByTechnicianIdQuery(technicianId);
             var technicianReserves = await _reserveQueryService.Handle(getReservesByTechnicianIdQuery);

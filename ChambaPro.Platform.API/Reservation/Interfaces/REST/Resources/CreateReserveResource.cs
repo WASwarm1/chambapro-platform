@@ -4,6 +4,6 @@ public record CreateReserveResource(
     DateTime Date,
     string Time,
     string Description,
-    string ClientId,
+    int ClientId,
     string CategoryId
 );
