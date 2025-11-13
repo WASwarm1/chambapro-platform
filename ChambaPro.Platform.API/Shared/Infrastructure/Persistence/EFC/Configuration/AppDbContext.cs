@@ -23,6 +23,7 @@ public class AppDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
+        
         optionsBuilder.AddCreatedUpdatedInterceptor();
         base.OnConfiguring(optionsBuilder);
     }
@@ -30,6 +31,17 @@ public class AppDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+        
+        foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+        {
+            foreach (var property in entityType.GetProperties())
+            {
+                if (property.ClrType == typeof(DateTime) || property.ClrType == typeof(DateTime?))
+                {
+                    property.SetColumnType("datetime");
+                }
+            }
+        }
         
         modelBuilder.Entity<Reserve>()
             .HasOne<Users>()
@@ -54,21 +66,26 @@ public class AppDbContext : DbContext
             .WithMany()
             .HasForeignKey(r => r.ClientId)
             .OnDelete(DeleteBehavior.Restrict);
-
+        
         modelBuilder.Entity<Reserve>().HasKey(r => r.Id);
         modelBuilder.Entity<Reserve>().Property(r => r.Id).IsRequired().ValueGeneratedOnAdd();
+        modelBuilder.Entity<Reserve>().Property(r => r.Date)
+            .IsRequired()
+            .HasColumnType("datetime");
         modelBuilder.Entity<Reserve>().Property(r => r.Time)
             .IsRequired()
             .HasConversion(
                 timeSpan => timeSpan.ToString(@"hh\:mm\:ss"),
                 dbValue => ConvertMySqlTimeToTimeSpan(dbValue)
             )
-            .HasColumnType("varchar(255)"); // TODO for front format: "hh:mm:ss"
+            .HasColumnType("varchar(255)");
         modelBuilder.Entity<Reserve>().Property(r => r.Description).HasMaxLength(500);
-        modelBuilder.Entity<Reserve>().Property(r => r.ClientId).IsRequired().HasMaxLength(100);
-        modelBuilder.Entity<Reserve>().Property(r => r.CategoryId).IsRequired().HasMaxLength(100);
-        modelBuilder.Entity<Reserve>().Property(r => r.TechnicianId).HasMaxLength(100);
+        modelBuilder.Entity<Reserve>().Property(r => r.ClientId).IsRequired();
+        modelBuilder.Entity<Reserve>().Property(r => r.CategoryId).IsRequired();
+        modelBuilder.Entity<Reserve>().Property(r => r.TechnicianId);
         modelBuilder.Entity<Reserve>().Property(r => r.Status).IsRequired();
+        //modelBuilder.Entity<Reserve>().Property<DateTime?>("CreatedAt").HasColumnType("datetime");
+        //modelBuilder.Entity<Reserve>().Property<DateTime?>("UpdatedAt").HasColumnType("datetime");
 
         modelBuilder.Entity<UserProfile>().HasKey(up => up.Id);
         modelBuilder.Entity<UserProfile>().Property(up => up.Id).IsRequired().ValueGeneratedOnAdd();
@@ -78,16 +95,18 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<UserProfile>().Property(up => up.Address).IsRequired().HasMaxLength(500);
         modelBuilder.Entity<UserProfile>().Property(up => up.Bio).IsRequired().HasMaxLength(1000);
         modelBuilder.Entity<UserProfile>().Property(up => up.ProfilePictureUrl).HasMaxLength(500);
-        modelBuilder.Entity<UserProfile>().Property(up => up.CreatedAt).IsRequired();
-        modelBuilder.Entity<UserProfile>().Property(up => up.UpdatedAt);
+        //modelBuilder.Entity<UserProfile>().Property(up => up.CreatedAt).IsRequired().HasColumnType("datetime");
+        //modelBuilder.Entity<UserProfile>().Property(up => up.UpdatedAt).HasColumnType("datetime");
         
         modelBuilder.Entity<Reviews>().HasKey(r => r.Id);
         modelBuilder.Entity<Reviews>().Property(r => r.Id).IsRequired().ValueGeneratedOnAdd();
-        modelBuilder.Entity<Reviews>().Property(r => r.TechnicianId).IsRequired();
+        modelBuilder.Entity<Reviews>().Property(r => r.TechnicianId);
         modelBuilder.Entity<Reviews>().Property(r => r.ClientId).IsRequired();
         modelBuilder.Entity<Reviews>().Property(r => r.Rating).IsRequired();
         modelBuilder.Entity<Reviews>().Property(r => r.Comment).IsRequired().HasMaxLength(1000);
-        modelBuilder.Entity<Reviews>().Property(r => r.CreationDate).IsRequired();
+        modelBuilder.Entity<Reviews>().Property(r => r.CreationDate).IsRequired().HasColumnType("datetime");
+        //modelBuilder.Entity<Reviews>().Property<DateTime?>("CreatedAt").HasColumnType("datetime");
+        //modelBuilder.Entity<Reviews>().Property<DateTime?>("UpdatedAt").HasColumnType("datetime");
         
         modelBuilder.Entity<Users>().HasKey(u => u.Id);
         modelBuilder.Entity<Users>().Property(u => u.Id).IsRequired().ValueGeneratedOnAdd();
@@ -98,7 +117,7 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Users>().Property(u => u.Phone).IsRequired().HasMaxLength(20);
         modelBuilder.Entity<Users>().Property(u => u.Avatar).IsRequired().HasMaxLength(500);
         modelBuilder.Entity<Users>().Property(u => u.Type).IsRequired().HasConversion<string>().HasMaxLength(20);
-        modelBuilder.Entity<Users>().Property(u => u.CreatedAt).IsRequired();
+        //modelBuilder.Entity<Users>().Property(u => u.CreatedAt).IsRequired().HasColumnType("datetime");
         modelBuilder.Entity<Users>().Property(u => u.Speciality).HasMaxLength(100);
         modelBuilder.Entity<Users>().Property(u => u.Description).HasMaxLength(1000);
         modelBuilder.Entity<Users>().Property(u => u.Experience).HasMaxLength(500);
@@ -109,7 +128,9 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Services>().Property(s => s.Id).IsRequired().ValueGeneratedOnAdd();
         modelBuilder.Entity<Services>().Property(s => s.ClientId).IsRequired();
         modelBuilder.Entity<Services>().Property(s => s.TechnicianId).IsRequired();
-        modelBuilder.Entity<Services>().Property(s => s.Date).IsRequired();
+        modelBuilder.Entity<Services>().Property(s => s.Date)
+            .IsRequired()
+            .HasColumnType("datetime");
         modelBuilder.Entity<Services>().Property(s => s.Time).IsRequired().HasMaxLength(50);
         modelBuilder.Entity<Services>().Property(s => s.Description).IsRequired().HasMaxLength(1000);
         modelBuilder.Entity<Services>().Property(s => s.Category).IsRequired().HasMaxLength(100);
@@ -117,6 +138,8 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Services>().Property(s => s.Cost).IsRequired().HasPrecision(10, 2);
         modelBuilder.Entity<Services>().Property(s => s.Duration).IsRequired().HasMaxLength(50);
         modelBuilder.Entity<Services>().Property(s => s.Address).IsRequired().HasMaxLength(500);
+        //modelBuilder.Entity<Services>().Property<DateTime?>("CreatedAt").HasColumnType("datetime");
+        //modelBuilder.Entity<Services>().Property<DateTime?>("UpdatedAt").HasColumnType("datetime");
         
         modelBuilder.Entity<Users>().HasIndex(u => u.Email).IsUnique();
 
