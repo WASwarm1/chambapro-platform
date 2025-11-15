@@ -70,10 +70,10 @@ builder.Services.AddSwaggerGen(options =>
     options.SwaggerDoc("v1",
         new OpenApiInfo
         {
-            Title = "AWSwarm.ChambaPro.API",
+            Title = "WASwarm.ChambaPro.API",
             Version = "v1",
-            Description = "AWSwarm ChambaPro Platform API",
-            TermsOfService = new Uri("https://awsawm-chambapro.com/tos"),
+            Description = "WASwarm ChambaPro Platform API",
+            TermsOfService = new Uri("https://wasarwm-chambapro.com/tos"),
             Contact = new OpenApiContact
             {
                 Name = "AWSawm",
