@@ -14,7 +14,7 @@ RUN dotnet build "./ChambaPro.Platform.API.csproj" -c $BUILD_CONFIGURATION -o /a
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
 RUN dotnet publish "./ChambaPro.Platform.API.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
-
+    
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
