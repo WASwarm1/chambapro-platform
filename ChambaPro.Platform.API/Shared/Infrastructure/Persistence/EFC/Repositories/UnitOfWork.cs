@@ -1,6 +1,4 @@
 ﻿using ChambaPro.Platform.API.Shared.Domain.Repositories;
-using ChambaPro.Platform.API.Shared.Domain.Repositories;
-using ChambaPro.Platform.API.Shared.Infrastructure.Persistence.EFC.Configuration;
 using ChambaPro.Platform.API.Shared.Infrastructure.Persistence.EFC.Configuration;
 
 namespace ChambaPro.Platform.API.Shared.Infrastructure.Persistence.EFC.Repositories;
