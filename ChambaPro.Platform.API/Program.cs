@@ -64,7 +64,9 @@ builder.Services.AddDbContext<AppDbContext>(options =>
             .EnableDetailedErrors();
     else if (builder.Environment.IsProduction())
         options.UseMySQL(connectionString)
-            .LogTo(Console.WriteLine, LogLevel.Error);
+            .LogTo(Console.WriteLine, LogLevel.Error)
+            .EnableDetailedErrors()
+            .EnableSensitiveDataLogging();
 });
 
 // Ensure repositories that ask for DbContext (base type) can resolve the registered AppDbContext
