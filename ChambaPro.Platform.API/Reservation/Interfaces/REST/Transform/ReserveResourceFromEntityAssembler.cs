@@ -12,7 +12,6 @@ public static class ReserveResourceFromEntityAssembler
             entity.Date,
             entity.Time.ToString(@"hh\:mm"),
             entity.Description,
-            null, // Address not available in current database
             entity.ClientId,
             string.Empty, // ClientName populated later if needed
             entity.CategoryId,
@@ -28,7 +27,6 @@ public static class ReserveResourceFromEntityAssembler
             entity.Date,
             entity.Time.ToString(@"hh\:mm"),
             entity.Description,
-            null, // Address not available in current database
             entity.ClientId,
             clientName,
             entity.CategoryId,

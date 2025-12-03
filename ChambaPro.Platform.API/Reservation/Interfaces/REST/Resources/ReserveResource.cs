@@ -5,7 +5,6 @@ public record ReserveResource(
     DateTime Date,
     string Time,
     string Description,
-    string? Address,
     int ClientId,
     string ClientName,
     string CategoryId,
