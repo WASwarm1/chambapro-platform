@@ -94,7 +94,14 @@ public class ReservationsController : ControllerBase
             {
                 var getReservesByClientIdQuery = new GetReservesByClientIdQuery(clientId.Value);
                 var clientReserves = await _reserveQueryService.Handle(getReservesByClientIdQuery);
-                var clientResult = clientReserves.Select(ReserveResourceFromEntityAssembler.ToResourceFromEntity).ToList();
+
+                // Fetch client name for the client
+                var client = await _userQueryService.Handle(new ChambaPro.Platform.API.IAM.Domain.Model.Queries.GetUserByIdQuery(clientId.Value));
+                var clientName = client != null ? $"{client.Name} {client.LastName}" : "Unknown Client";
+
+                var clientResult = clientReserves.Select(reserve =>
+                    ReserveResourceFromEntityAssembler.ToResourceFromEntityWithClient(reserve, clientName)
+                ).ToList();
                 return Ok(clientResult);
             }
 
