@@ -6,6 +6,7 @@ public record ReserveResource(
     string Time,
     string Description,
     int ClientId,
+    string ClientName,
     string CategoryId,
     int? TechnicianId,
     string Status

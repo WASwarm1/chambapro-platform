@@ -1,4 +1,5 @@
 ﻿using System.Net.Mime;
+using ChambaPro.Platform.API.IAM.Domain.Services;
 using ChambaPro.Platform.API.Reservation.Domain.Model.Commands;
 using ChambaPro.Platform.API.Reservation.Domain.Model.Queries;
 using ChambaPro.Platform.API.Reservation.Domain.Services;
@@ -20,15 +21,18 @@ public class ReservationsController : ControllerBase
 {
     private readonly IReserveCommandService _reserveCommandService;
     private readonly IReserveQueryService _reserveQueryService;
+    private readonly IUserQueryService _userQueryService;
     private readonly IStringLocalizer<ReservationsController> _localizer;
 
     public ReservationsController(
         IReserveCommandService reserveCommandService,
         IReserveQueryService reserveQueryService,
+        IUserQueryService userQueryService,
         IStringLocalizer<ReservationsController> localizer)
     {
         _reserveCommandService = reserveCommandService;
         _reserveQueryService = reserveQueryService;
+        _userQueryService = userQueryService;
         _localizer = localizer;
     }
 
@@ -100,7 +104,26 @@ public class ReservationsController : ControllerBase
 
             var getAllReservesQuery = new GetAllReservesQuery();
             var reserves = await _reserveQueryService.Handle(getAllReservesQuery);
-            var result = reserves.Select(ReserveResourceFromEntityAssembler.ToResourceFromEntity).ToList();
+
+            // Fetch client names for all reservations
+            var clientIds = reserves.Select(r => r.ClientId).Distinct().ToList();
+            var clientNames = new Dictionary<int, string>();
+
+            foreach (var id in clientIds)
+            {
+                var client = await _userQueryService.Handle(new ChambaPro.Platform.API.IAM.Domain.Model.Queries.GetUserByIdQuery(id));
+                if (client != null)
+                {
+                    clientNames[id] = $"{client.Name} {client.LastName}";
+                }
+            }
+
+            var result = reserves.Select(reserve =>
+            {
+                var clientName = clientNames.TryGetValue(reserve.ClientId, out var name) ? name : "Unknown Client";
+                return ReserveResourceFromEntityAssembler.ToResourceFromEntityWithClient(reserve, clientName);
+            }).ToList();
+
             return Ok(result);
         }
         catch (Exception e)
