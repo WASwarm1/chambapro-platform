@@ -65,14 +65,16 @@ public class UserCommandService : IUserCommandService
 
         if (command.UserType.ToLower() == "technician")
         {
-            
-            if (command.HourlyRate.HasValue && command.HourlyRate.Value < 10)
+            if (!command.HourlyRate.HasValue)
+                throw new Exception("Hourly rate is required for technicians");
+
+            if (command.HourlyRate.Value < 10)
                 throw new Exception("Hourly rate must be at least 10 soles");
-        
+
             var validSpecialities = new[] { "Plumbing", "Electrical", "Carpentry", "Painting", "Locksmith" };
             if (!validSpecialities.Contains(command.Speciality))
                 throw new Exception("Invalid speciality. Must be one of: Plumbing, Electrical, Carpentry, Painting, Locksmith");
-            
+
             user = new Users(
                 command.Email,
                 hashedPassword,
@@ -82,7 +84,7 @@ public class UserCommandService : IUserCommandService
                 command.Speciality ?? string.Empty,
                 command.Description ?? string.Empty,
                 command.Experience ?? string.Empty,
-                command.HourlyRate ?? 0
+                command.HourlyRate.Value
             );
         }
         else
