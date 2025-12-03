@@ -27,4 +27,7 @@
 	<data name="OperationFailed" xml:space="preserve">
     <value>La operación falló, por favor intenta nuevamente.</value>
   </data>
+	<data name="ReservationCreationFailed" xml:space="preserve">
+    <value>Error al crear la reserva.</value>
+  </data>
 </root>

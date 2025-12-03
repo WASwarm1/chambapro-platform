@@ -53,6 +53,9 @@ builder.Services.AddCors(options =>
             .AllowCredentials()); // Allow credentials if needed
 });
 
+// Add localization services
+builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+
 if (connectionString == null) throw new InvalidOperationException("Connection string not found.");
 
 builder.Services.AddDbContext<AppDbContext>(options =>

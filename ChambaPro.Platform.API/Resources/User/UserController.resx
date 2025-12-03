@@ -37,4 +37,13 @@
 	<data name="DuplicateUsername" xml:space="preserve">
     <value>A user with username '{0}' already exists.</value>
   </data>
+	<data name="UnauthorizedToUpdateProfile" xml:space="preserve">
+    <value>You are not authorized to update this profile.</value>
+  </data>
+	<data name="ProfileUpdateFailed" xml:space="preserve">
+    <value>Profile update failed.</value>
+  </data>
+	<data name="NotAuthenticated" xml:space="preserve">
+    <value>User is not authenticated.</value>
+  </data>
 </root>
