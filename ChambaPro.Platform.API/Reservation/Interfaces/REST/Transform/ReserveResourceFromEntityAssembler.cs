@@ -12,6 +12,7 @@ public static class ReserveResourceFromEntityAssembler
             entity.Date,
             entity.Time.ToString(@"hh\:mm"),
             entity.Description,
+            entity.Address,
             entity.ClientId,
             string.Empty, // Will be populated by controller
             entity.CategoryId,
@@ -27,6 +28,7 @@ public static class ReserveResourceFromEntityAssembler
             entity.Date,
             entity.Time.ToString(@"hh\:mm"),
             entity.Description,
+            entity.Address,
             entity.ClientId,
             clientName,
             entity.CategoryId,

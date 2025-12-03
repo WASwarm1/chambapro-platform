@@ -23,6 +23,7 @@ public static class CreateReserveCommandFromResourceAssembler
             resource.Date,
             time,
             resource.Description,
+            resource.Address,
             resource.ClientId,
             resource.CategoryId
         );

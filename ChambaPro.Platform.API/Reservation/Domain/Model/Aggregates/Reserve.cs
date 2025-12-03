@@ -8,6 +8,7 @@ public partial class Reserve
     public DateTime Date { get; private set; }
     public TimeSpan Time { get; private set; }
     public string Description { get; private set; }
+    public string Address { get; private set; }
     public int ClientId { get; private set; }
     public string CategoryId { get; private set; }
     public int? TechnicianId { get; private set; }
@@ -16,16 +17,18 @@ public partial class Reserve
     public Reserve()
     {
         Description = string.Empty;
+        Address = string.Empty;
         ClientId = 0;
         CategoryId = string.Empty;
         Status = ReservationStatus.Pending;
     }
 
-    public Reserve(DateTime date, TimeSpan time, string description, int clientId, string categoryId)
+    public Reserve(DateTime date, TimeSpan time, string description, string address, int clientId, string categoryId)
     {
         Date = date;
         Time = time;
         Description = description;
+        Address = address;
         ClientId = clientId;
         CategoryId = categoryId;
         Status = ReservationStatus.Pending;
@@ -36,6 +39,7 @@ public partial class Reserve
         Date = command.Date;
         Time = command.Time;
         Description = command.Description;
+        Address = command.Address;
         ClientId = command.ClientId;
         CategoryId = command.CategoryId;
         Status = ReservationStatus.Pending;

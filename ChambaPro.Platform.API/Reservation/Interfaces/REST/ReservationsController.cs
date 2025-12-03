@@ -71,7 +71,11 @@ public class ReservationsController : ControllerBase
         if (result == null)
             return NotFound(_localizer["ReservationNotFound"]);
 
-        return Ok(ReserveResourceFromEntityAssembler.ToResourceFromEntity(result));
+        // Fetch client name
+        var client = await _userQueryService.Handle(new ChambaPro.Platform.API.IAM.Domain.Model.Queries.GetUserByIdQuery(result.ClientId));
+        var clientName = client != null ? $"{client.Name} {client.LastName}" : "Unknown Client";
+
+        return Ok(ReserveResourceFromEntityAssembler.ToResourceFromEntityWithClient(result, clientName));
     }
 
     [HttpGet]
