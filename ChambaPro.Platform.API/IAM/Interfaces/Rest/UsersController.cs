@@ -38,38 +38,59 @@ public class UsersController : ControllerBase
     [HttpGet("{id:int}")]
     public async Task<IActionResult> GetUserById(int id)
     {
-        var getUserByIdQuery = new GetUserByIdQuery(id);
-        var result = await _userQueryService.Handle(getUserByIdQuery);
+        try
+        {
+            var getUserByIdQuery = new GetUserByIdQuery(id);
+            var result = await _userQueryService.Handle(getUserByIdQuery);
 
-        if (result is null)
-            return NotFound(new { message = _localizer["UserNotFound"] });
+            if (result is null)
+                return NotFound(new { message = _localizer["UserNotFound"] });
 
-        var resource = UserResourceFromEntityAssembler.ToResourceFromEntity(result);
-        return Ok(resource);
+            var resource = UserResourceFromEntityAssembler.ToResourceFromEntity(result);
+            return Ok(resource);
+        }
+        catch (Exception e)
+        {
+            return StatusCode(500, new { message = "Internal server error" });
+        }
     }
 
     [HttpGet("technicians")]
     public async Task<IActionResult> GetAllTechnicians()
     {
-        var getAllTechniciansQuery = new GetAllTechniciansQuery();
-        var result = await _userQueryService.Handle(getAllTechniciansQuery);
+        try
+        {
+            var getAllTechniciansQuery = new GetAllTechniciansQuery();
+            var result = await _userQueryService.Handle(getAllTechniciansQuery);
 
-        var resources = result.Select(UserResourceFromEntityAssembler
-            .ToResourceFromEntity);
+            var resources = result.Select(UserResourceFromEntityAssembler
+                .ToResourceFromEntity);
 
-        return Ok(resources);
+            return Ok(resources);
+        }
+        catch (Exception e)
+        {
+            return StatusCode(500, new { message = "Internal server error" });
+        }
     }
 
     [HttpGet("technicians/by-speciality/{speciality}")]
     public async Task<IActionResult> GetTechniciansBySpeciality(string speciality)
     {
-        var query = new GetTechniciansBySpecialityQuery(speciality);
-        var result = await _userQueryService.Handle(query);
+        try
+        {
+            var query = new GetTechniciansBySpecialityQuery(speciality);
+            var result = await _userQueryService.Handle(query);
 
-        var resources = result.Select(UserResourceFromEntityAssembler
-            .ToResourceFromEntity);
+            var resources = result.Select(UserResourceFromEntityAssembler
+                .ToResourceFromEntity);
 
-        return Ok(resources);
+            return Ok(resources);
+        }
+        catch (Exception e)
+        {
+            return StatusCode(500, new { message = "Internal server error" });
+        }
     }
 
     [HttpPut("{id:int}/profile")]
