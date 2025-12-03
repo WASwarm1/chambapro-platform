@@ -8,7 +8,7 @@ public partial class Reserve
     public DateTime Date { get; private set; }
     public TimeSpan Time { get; private set; }
     public string Description { get; private set; }
-    public string Address { get; private set; }
+    public string? Address { get; private set; }
     public int ClientId { get; private set; }
     public string CategoryId { get; private set; }
     public int? TechnicianId { get; private set; }
