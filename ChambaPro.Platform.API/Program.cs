@@ -40,13 +40,15 @@ builder.Services.AddControllers(options => options.Conventions.Add(new KebabCase
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
+var corsOrigin = Environment.GetEnvironmentVariable("CORS_ORIGIN") ?? "http://localhost:5173";
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigins",
-        policy => policy.AllowAnyOrigin()
+        policy => policy.WithOrigins(corsOrigin)
             .AllowAnyMethod()
             .AllowAnyHeader()
-            .AllowCredentials()); // Allow credentials if needed
+            .AllowCredentials());
 });
 
 // Add localization services
