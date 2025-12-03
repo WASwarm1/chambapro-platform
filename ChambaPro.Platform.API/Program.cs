@@ -41,10 +41,15 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAllPolicy",
-        policy => policy.AllowAnyOrigin()
+    options.AddPolicy("AllowSpecificOrigins",
+        policy => policy.WithOrigins(
+                "https://chambapro-frontend-iota.vercel.app",
+                "http://localhost:5173", // Common local dev port for Vite
+                "http://localhost:3000"  // Common local dev port
+            )
             .AllowAnyMethod()
-            .AllowAnyHeader());
+            .AllowAnyHeader()
+            .AllowCredentials()); // Allow credentials if needed
 });
 
 if (connectionString == null) throw new InvalidOperationException("Connection string not found.");
@@ -168,7 +173,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors("AllowAllPolicy");
+app.UseCors("AllowSpecificOrigins");
 
 //app.UseRequestAuthorization();
 

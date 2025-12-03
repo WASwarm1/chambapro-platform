@@ -3,11 +3,13 @@ using ChambaPro.Platform.API.IAM.Domain.Services;
 using ChambaPro.Platform.API.IAM.Infrastructure.Pipeline.Middleware.Authorization;
 using ChambaPro.Platform.API.IAM.Interfaces.Rest.Resources;
 using ChambaPro.Platform.API.IAM.Interfaces.Rest.Transform;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ChambaPro.Platform.API.IAM.Interfaces.Rest;
 
 
+[EnableCors("AllowSpecificOrigins")]
 [Authorize]
 [ApiController]
 [Route("api/v1/[controller]")]
