@@ -43,11 +43,7 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigins",
-        policy => policy.WithOrigins(
-                "https://chambapro-frontend-iota.vercel.app",
-                "http://localhost:5173", // Common local dev port for Vite
-                "http://localhost:3000"  // Common local dev port
-            )
+        policy => policy.AllowAnyOrigin()
             .AllowAnyMethod()
             .AllowAnyHeader()
             .AllowCredentials()); // Allow credentials if needed
