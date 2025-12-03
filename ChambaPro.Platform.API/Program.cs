@@ -27,6 +27,7 @@ using ChambaPro.Platform.API.Shared.Infrastructure.Persistence.EFC.Configuration
 using ChambaPro.Platform.API.Shared.Infrastructure.Persistence.EFC.Repositories;
 using Chambapro.Platform.API.User.Domain.Repositories;
 using Chambapro.Platform.API.User.Infrastructure.Persistence.EF;
+using ChambaPro.Platform.API.IAM.Infrastructure.Pipeline.Middleware.Components;
 using Cortex.Mediator.Commands;
 using Cortex.Mediator.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
@@ -175,7 +176,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors("AllowSpecificOrigins");
 
-app.UseRequestAuthorization();
+app.UseMiddleware<RequestAuthorizationMiddleware>();
 
 app.UseHttpsRedirection();
 
