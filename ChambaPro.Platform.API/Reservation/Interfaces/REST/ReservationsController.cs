@@ -77,29 +77,36 @@ public class ReservationsController : ControllerBase
         OperationId = "GetAllReservations")]
     [SwaggerResponse(StatusCodes.Status200OK, "The Reservations Were Found", typeof(IEnumerable<ReserveResource>))]
     public async Task<IActionResult> GetAllReservations(
-        [FromQuery] int clientId,
-        [FromQuery] int technicianId)
+        [FromQuery] int? clientId,
+        [FromQuery] int? technicianId)
     {
-        if ((clientId) != null)
+        try
         {
-            var getReservesByClientIdQuery = new GetReservesByClientIdQuery(clientId);
-            var clientReserves = await _reserveQueryService.Handle(getReservesByClientIdQuery);
-            var clientResult = clientReserves.Select(ReserveResourceFromEntityAssembler.ToResourceFromEntity).ToList();
-            return Ok(clientResult);
-        }
+            if (clientId.HasValue)
+            {
+                var getReservesByClientIdQuery = new GetReservesByClientIdQuery(clientId.Value);
+                var clientReserves = await _reserveQueryService.Handle(getReservesByClientIdQuery);
+                var clientResult = clientReserves.Select(ReserveResourceFromEntityAssembler.ToResourceFromEntity).ToList();
+                return Ok(clientResult);
+            }
 
-        if ((technicianId) != null)
+            if (technicianId.HasValue)
+            {
+                var getReservesByTechnicianIdQuery = new GetReservesByTechnicianIdQuery(technicianId.Value);
+                var technicianReserves = await _reserveQueryService.Handle(getReservesByTechnicianIdQuery);
+                var technicianResult = technicianReserves.Select(ReserveResourceFromEntityAssembler.ToResourceFromEntity).ToList();
+                return Ok(technicianResult);
+            }
+
+            var getAllReservesQuery = new GetAllReservesQuery();
+            var reserves = await _reserveQueryService.Handle(getAllReservesQuery);
+            var result = reserves.Select(ReserveResourceFromEntityAssembler.ToResourceFromEntity).ToList();
+            return Ok(result);
+        }
+        catch (Exception e)
         {
-            var getReservesByTechnicianIdQuery = new GetReservesByTechnicianIdQuery(technicianId);
-            var technicianReserves = await _reserveQueryService.Handle(getReservesByTechnicianIdQuery);
-            var technicianResult = technicianReserves.Select(ReserveResourceFromEntityAssembler.ToResourceFromEntity).ToList();
-            return Ok(technicianResult);
+            return StatusCode(500, new { message = "Internal server error" });
         }
-
-        var getAllReservesQuery = new GetAllReservesQuery();
-        var reserves = await _reserveQueryService.Handle(getAllReservesQuery);
-        var result = reserves.Select(ReserveResourceFromEntityAssembler.ToResourceFromEntity).ToList();
-        return Ok(result);
     }
 
     [HttpPut("{id:int}")]

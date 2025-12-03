@@ -52,15 +52,22 @@ namespace ChambaPro.Platform.API.Review.Interfaces.Rest.Controllers
         [ProducesResponseType(typeof(IEnumerable<ReviewResource>), 200)]
         public async Task<IActionResult> GetReviewsByTechnicianId(int technicianId)
         {
-            var query = new GetReviewsByTechnicianIdQuery(technicianId);
-            var reviews = await _queryService.Handle(query);
-            var reviewResources = ReviewResourceAssembler.ToResourceListFromEntityList(reviews);
-
-            return Ok(new
+            try
             {
-                message = _localizer["Reviews_Fetched"],
-                data = reviewResources
-            });
+                var query = new GetReviewsByTechnicianIdQuery(technicianId);
+                var reviews = await _queryService.Handle(query);
+                var reviewResources = ReviewResourceAssembler.ToResourceListFromEntityList(reviews);
+
+                return Ok(new
+                {
+                    message = _localizer["Reviews_Fetched"],
+                    data = reviewResources
+                });
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, new { message = "Internal server error" });
+            }
         }
     }
 }
