@@ -10,7 +10,6 @@ namespace ChambaPro.Platform.API.IAM.Interfaces.Rest;
 
 
 [EnableCors("AllowSpecificOrigins")]
-[Authorize]
 [ApiController]
 [Route("api/v1/[controller]")]
 [Produces(MediaTypeNames.Application.Json)]
