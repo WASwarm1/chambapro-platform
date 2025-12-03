@@ -16,20 +16,20 @@ namespace ChambaPro.Platform.API.Review.Interfaces.Rest.Controllers
     [ApiController]
     [Route("api/v1/[controller]")]
     [Produces(MediaTypeNames.Application.Json)]
-    public class ReviewController : ControllerBase
+    public class ReviewsController : ControllerBase
     {
         private readonly IReviewCommandService _commandService;
         private readonly IReviewQueryService _queryService;
         private readonly IStringLocalizer _localizer;
 
-        public ReviewController(
+        public ReviewsController(
             IReviewCommandService commandService,
             IReviewQueryService queryService,
             IStringLocalizerFactory localizerFactory)
         {
             _commandService = commandService;
             _queryService = queryService;
-            _localizer = localizerFactory.Create("ReviewController", typeof(ReviewController).Assembly.GetName().Name!);
+            _localizer = localizerFactory.Create("ReviewsController", typeof(ReviewsController).Assembly.GetName().Name!);
         }
 
         [HttpPost]
