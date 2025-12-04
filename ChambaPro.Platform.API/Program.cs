@@ -51,7 +51,6 @@ builder.Services.AddCors(options =>
             .AllowCredentials());
 });
 
-// Add localization services
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 
 if (connectionString == null) throw new InvalidOperationException("Connection string not found.");
@@ -70,7 +69,6 @@ builder.Services.AddDbContext<AppDbContext>(options =>
             .EnableSensitiveDataLogging();
 });
 
-// Ensure repositories that ask for DbContext (base type) can resolve the registered AppDbContext
 builder.Services.AddScoped<DbContext>(sp => sp.GetRequiredService<AppDbContext>());
 
 builder.Services.AddSwaggerGen(options =>
@@ -122,8 +120,6 @@ builder.Services.AddSwaggerGen(options =>
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-//TODO: Per BC config
-
 builder.Services.Configure<TokenSettings>(
     builder.Configuration.GetSection("TokenSettings"));
 
@@ -159,7 +155,6 @@ builder.Services.AddCortexMediator(
     handlerAssemblyMarkerTypes: new[] { typeof(Program) }, configure: options =>
     {
         options.AddOpenCommandPipelineBehavior(typeof(LoggingCommandBehavior<>));
-        //options.AddDefaultBehaviors();
     });
 
 var app = builder.Build();
